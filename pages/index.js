@@ -125,56 +125,159 @@ export default function Home() {
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <section className="pt-32 pb-20 bg-gradient-to-br from-slate-light via-white to-blue-50 relative overflow-hidden">
-        <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
-        <div className="absolute top-20 right-20 w-72 h-72 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 left-20 w-96 h-96 bg-gradient-to-br from-secondary/20 to-primary/20 rounded-full blur-3xl"></div>
+      {/* Hero Section - Premium Split Screen */}
+      <section className="pt-24 lg:pt-32 pb-16 lg:pb-24 min-h-screen relative overflow-hidden bg-gradient-to-br from-purple-50 via-pink-50 to-white">
+        {/* Background Elements */}
+        <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-bl from-primary/5 to-transparent"></div>
+        <div className="absolute top-20 left-10 w-72 h-72 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-20 right-20 w-96 h-96 bg-gradient-to-br from-secondary/10 to-purple-200/30 rounded-full blur-3xl"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-radial from-pink-100/50 to-transparent rounded-full blur-3xl"></div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <div className="text-center animate-fade-in-up">
-            <div className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm border border-gray-200 rounded-full px-6 py-3 mb-8">
-              <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-              <span className="text-sm font-medium text-slate-dark">Loved in Europe • Now expanding to UK & USA</span>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            
+            {/* Left Side - Content */}
+            <div className="order-2 lg:order-1 animate-fade-in-up">
+              {/* Badge */}
+              <div className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm border border-purple-200 rounded-full px-5 py-2.5 mb-8 shadow-sm">
+                <span className="text-lg">✨</span>
+                <span className="text-sm font-medium text-slate-dark">Loved in Europe • Now in USA</span>
+              </div>
+              
+              {/* Headline */}
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-dark mb-6 leading-tight">
+                European Design.
+                <br />
+                <span className="bg-gradient-to-r from-primary via-purple-500 to-secondary bg-clip-text text-transparent">
+                  Silicon Valley Intelligence.
+                </span>
+              </h1>
+              
+              {/* Subhead */}
+              <p className="text-lg md:text-xl text-gray-600 mb-8 leading-relaxed max-w-xl">
+                Stop losing clients to voicemail. We build stunning, mobile-first websites equipped with an 
+                <span className="font-semibold text-slate-dark"> AI Receptionist</span> that works while you sleep.
+              </p>
+              
+              {/* Features */}
+              <div className="space-y-4 mb-10">
+                <div className="flex items-start gap-4">
+                  <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-xl flex items-center justify-center">
+                    <span className="text-xl">✨</span>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-slate-dark mb-1">Stunning Visuals that Convert</h3>
+                    <p className="text-gray-600 text-sm">Pixel-perfect design tailored to the US market.</p>
+                  </div>
+                </div>
+                
+                <div className="flex items-start gap-4">
+                  <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-green-100 to-emerald-100 rounded-xl flex items-center justify-center">
+                    <span className="text-xl">📅</span>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-slate-dark mb-1">Fully Integrated Booking Calendar</h3>
+                    <p className="text-gray-600 text-sm">Syncs with your iPhone/Google Calendar. Clients book 24/7, you never get double-booked.</p>
+                  </div>
+                </div>
+                
+                <div className="flex items-start gap-4">
+                  <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-secondary/10 to-purple-100 rounded-xl flex items-center justify-center">
+                    <span className="text-xl">🧠</span>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-slate-dark mb-1">The Receptionist That Never Sleeps</h3>
+                    <p className="text-gray-600 text-sm">An embedded AI agent that answers questions and fills your calendar 24/7.</p>
+                  </div>
+                </div>
+              </div>
+              
+              {/* CTA Buttons */}
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Link href="/create-landing-page" className="bg-gradient-to-r from-primary to-secondary text-white px-8 py-4 rounded-2xl text-lg font-semibold hover:shadow-2xl hover:shadow-primary/25 transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 text-center">
+                  Get Started Now
+                </Link>
+                <button className="group border-2 border-gray-200 bg-white/80 backdrop-blur-sm text-slate-dark px-8 py-4 rounded-2xl text-lg font-semibold hover:border-primary hover:bg-white transition-all duration-300 flex items-center justify-center gap-3">
+                  <div className="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <Play className="h-4 w-4 text-white ml-0.5" />
+                  </div>
+                  Watch Demo
+                </button>
+              </div>
             </div>
             
-            <h1 className="text-5xl md:text-7xl font-bold text-slate-dark mb-6 leading-tight">
-              Get More Clients with <br />
-              <span className="gradient-text">Stunning Videos & Ads</span>
-              <br />
-              <span className="text-3xl md:text-4xl font-normal text-gray-600">Done for You ✨</span>
-            </h1>
-            
-            <p className="text-xl md:text-2xl text-gray-600 mb-12 max-w-4xl mx-auto leading-relaxed">
-              European-proven strategies now available in UK & USA. We help nail salons, lash artists, and beauty businesses 
-              attract dream clients with professional landing pages, captivating videos, and high-converting social media campaigns.
-            </p>
-            
-            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-12">
-              <Link href="/create-landing-page" className="bg-gradient-to-r from-primary to-secondary text-white px-10 py-5 rounded-2xl text-lg font-semibold hover:shadow-2xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-1">
-                Get Started Now
-              </Link>
-              <button className="border-2 border-gray-300 text-slate-dark px-10 py-5 rounded-2xl text-lg font-semibold hover:bg-gray-50 hover:border-primary transition-all duration-300 flex items-center gap-3">
-                <Play className="h-6 w-6" />
-                View Examples
-              </button>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-              <div className="text-center">
-                <div className="text-3xl font-bold text-slate-dark mb-2">15+</div>
-                <div className="text-gray-600">Beauty Brands Transformed</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-slate-dark mb-2">100K+</div>
-                <div className="text-gray-600">Views Generated</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-slate-dark mb-2">150%</div>
-                <div className="text-gray-600">Average Booking Increase</div>
+            {/* Right Side - Laptop Mockup with Video */}
+            <div className="order-1 lg:order-2 flex justify-center lg:justify-end">
+              <div className="relative w-full max-w-lg lg:max-w-xl">
+                {/* Laptop Frame */}
+                <div className="relative">
+                  {/* Screen Bezel */}
+                  <div className="bg-gray-800 rounded-t-2xl p-3 pb-0">
+                    {/* Browser Chrome */}
+                    <div className="bg-gray-700 rounded-t-lg px-4 py-2 flex items-center gap-2">
+                      <div className="flex gap-1.5">
+                        <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                        <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                        <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                      </div>
+                      <div className="flex-1 mx-4">
+                        <div className="bg-gray-600 rounded-md px-3 py-1 text-xs text-gray-300 truncate">
+                          glowbooststudio.com
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Video Container */}
+                    <div className="bg-white rounded-b-lg overflow-hidden aspect-video">
+                      <video
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        className="w-full h-full object-cover"
+                      >
+                        <source src="/video.mp4" type="video/mp4" />
+                        Your browser does not support the video tag.
+                      </video>
+                    </div>
+                  </div>
+                  
+                  {/* Laptop Base */}
+                  <div className="bg-gray-800 h-4 rounded-b-lg"></div>
+                  <div className="bg-gray-700 h-2 mx-16 rounded-b-xl"></div>
+                  
+                  {/* Shadow */}
+                  <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 w-3/4 h-8 bg-black/20 blur-xl rounded-full"></div>
+                </div>
+                
+                {/* Floating Elements */}
+                <div className="absolute -top-4 -right-4 bg-white rounded-2xl shadow-xl p-4 animate-bounce-slow">
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                      <Check className="h-4 w-4 text-green-600" />
+                    </div>
+                    <div>
+                      <p className="text-xs text-gray-500">New Booking</p>
+                      <p className="text-sm font-semibold text-slate-dark">Sarah M.</p>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="absolute -bottom-2 -left-4 bg-white rounded-2xl shadow-xl p-4 animate-bounce-slow" style={{ animationDelay: '1s' }}>
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
+                      <MessageCircle className="h-4 w-4 text-purple-600" />
+                    </div>
+                    <div>
+                      <p className="text-xs text-gray-500">AI Replied</p>
+                      <p className="text-sm font-semibold text-slate-dark">"Price sent!"</p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
+          
         </div>
       </section>
 
@@ -183,50 +286,49 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-20">
             <div className="inline-block bg-gradient-to-r from-primary/10 to-secondary/10 rounded-full px-6 py-2 mb-6">
-              <span className="text-primary font-semibold">Our Expertise</span>
+              <span className="text-primary font-semibold">What We Build For You</span>
             </div>
-            <h2 className="text-4xl md:text-5xl font-bold text-slate-dark mb-6">Comprehensive Beauty Marketing</h2>
+            <h2 className="text-4xl md:text-5xl font-bold text-slate-dark mb-6">Beauty Tech That Works While You Sleep</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              Bringing 3+ years of European beauty marketing expertise to UK & USA. End-to-end solutions that drive real growth.
+              Automation, aesthetics, and results—everything a modern salon owner needs to scale.
             </p>
           </div>
 
           {/* Service Categories */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-16">
-            {/* Brand Strategy & Development */}
+            {/* Digital Storefront Design */}
             <div className="group">
               <div className="bg-gradient-to-br from-gray-50 to-white rounded-3xl p-10 card-shadow group-hover:card-shadow-hover transition-all duration-500 border border-gray-100">
                 <div className="flex items-center mb-8">
                   <div className="bg-gradient-to-br from-primary/10 to-primary/5 w-16 h-16 rounded-2xl flex items-center justify-center mr-6">
-                    <Target className="h-8 w-8 text-primary" />
+                    <Palette className="h-8 w-8 text-primary" />
                   </div>
                   <div>
-                    <h3 className="text-2xl font-bold text-slate-dark mb-2">Brand Strategy</h3>
-                    <p className="text-gray-600">Foundation | Identity | Positioning</p>
+                    <h3 className="text-2xl font-bold text-slate-dark mb-2">Digital Storefront Design</h3>
+                    <p className="text-gray-600">Aesthetic | Branding | Mobile-First</p>
                   </div>
                 </div>
                 <p className="text-gray-600 leading-relaxed mb-6">
-                  We start by defining your brand values, unique selling proposition, and market positioning. 
-                  Then we craft a compelling brand identity that resonates with your target audience and drives authentic engagement.
+                  We don't just build "websites"—we build high-end digital storefronts that match your salon's vibe. From custom logo design to a mobile-perfect layout, we ensure you look like the premium choice in your city.
                 </p>
                 <ul className="space-y-3 text-gray-600">
                   <li className="flex items-center gap-3">
                     <Check className="h-4 w-4 text-primary" />
-                    <span>Brand workshops & strategy sessions</span>
+                    <span>Custom Logo & Business Card Design included</span>
                   </li>
                   <li className="flex items-center gap-3">
                     <Check className="h-4 w-4 text-primary" />
-                    <span>Market analysis & competitor research</span>
+                    <span>Mobile-First Layout (Optimized for Instagram bios)</span>
                   </li>
                   <li className="flex items-center gap-3">
                     <Check className="h-4 w-4 text-primary" />
-                    <span>Brand messaging & tone of voice</span>
+                    <span>High-End Portfolio Gallery to showcase your work</span>
                   </li>
                 </ul>
               </div>
             </div>
 
-            {/* Digital Presence */}
+            {/* 24/7 Booking Automation */}
             <div className="group">
               <div className="bg-gradient-to-br from-gray-50 to-white rounded-3xl p-10 card-shadow group-hover:card-shadow-hover transition-all duration-500 border border-gray-100">
                 <div className="flex items-center mb-8">
@@ -234,92 +336,89 @@ export default function Home() {
                     <Globe className="h-8 w-8 text-secondary" />
                   </div>
                   <div>
-                    <h3 className="text-2xl font-bold text-slate-dark mb-2">Digital Presence</h3>
-                    <p className="text-gray-600">Websites | Landing Pages | Booking Systems</p>
+                    <h3 className="text-2xl font-bold text-slate-dark mb-2">24/7 Booking Automation</h3>
+                    <p className="text-gray-600">Calendar | Sync | Payments</p>
                   </div>
                 </div>
                 <p className="text-gray-600 leading-relaxed mb-6">
-                  Professional, conversion-optimized websites and landing pages that turn visitors into loyal clients. 
-                  Mobile-first design with integrated booking systems for seamless customer experience.
+                  Stop playing phone tag. Our system acts as your 24/7 receptionist, letting clients see your availability and book instantly. It syncs directly with your iPhone/Google Calendar so you never get double-booked.
                 </p>
                 <ul className="space-y-3 text-gray-600">
                   <li className="flex items-center gap-3">
                     <Check className="h-4 w-4 text-secondary" />
-                    <span>Custom landing page design</span>
+                    <span>Auto-Syncs with your personal phone calendar</span>
                   </li>
                   <li className="flex items-center gap-3">
                     <Check className="h-4 w-4 text-secondary" />
-                    <span>Mobile-optimized user experience</span>
+                    <span>SMS Reminders to reduce no-shows</span>
                   </li>
                   <li className="flex items-center gap-3">
                     <Check className="h-4 w-4 text-secondary" />
-                    <span>Integrated booking & payment systems</span>
+                    <span>Google Maps Integration ("Book Now" button)</span>
                   </li>
                 </ul>
               </div>
             </div>
 
-            {/* Content Creation */}
+            {/* The AI Receptionist */}
             <div className="group">
               <div className="bg-gradient-to-br from-gray-50 to-white rounded-3xl p-10 card-shadow group-hover:card-shadow-hover transition-all duration-500 border border-gray-100">
                 <div className="flex items-center mb-8">
                   <div className="bg-gradient-to-br from-primary/10 to-primary/5 w-16 h-16 rounded-2xl flex items-center justify-center mr-6">
-                    <Camera className="h-8 w-8 text-primary" />
+                    <MessageCircle className="h-8 w-8 text-primary" />
                   </div>
                   <div>
-                    <h3 className="text-2xl font-bold text-slate-dark mb-2">Content Creation</h3>
-                    <p className="text-gray-600">Videos | Photography | Storytelling</p>
+                    <h3 className="text-2xl font-bold text-slate-dark mb-2">The AI Receptionist</h3>
+                    <p className="text-gray-600">Auto-Replies | FAQ | 24/7 Support</p>
                   </div>
                 </div>
                 <p className="text-gray-600 leading-relaxed mb-6">
-                  Stunning visual content that showcases your work and tells your brand story. 
-                  From promotional videos to behind-the-scenes content that builds trust and drives engagement.
+                  Our AI developer trains a custom AI specifically for your salon. It sits on your website and answers questions like "How much for a full set?" or "Where do I park?" instantly, capturing clients while you sleep.
                 </p>
                 <ul className="space-y-3 text-gray-600">
                   <li className="flex items-center gap-3">
                     <Check className="h-4 w-4 text-primary" />
-                    <span>Professional video production</span>
+                    <span>Trained on your specific Price List</span>
                   </li>
                   <li className="flex items-center gap-3">
                     <Check className="h-4 w-4 text-primary" />
-                    <span>Behind-the-scenes content</span>
+                    <span>Filters out "Time Waster" DMs</span>
                   </li>
                   <li className="flex items-center gap-3">
                     <Check className="h-4 w-4 text-primary" />
-                    <span>Educational & promotional videos</span>
+                    <span>Instant replies even at 2:00 AM</span>
                   </li>
                 </ul>
               </div>
             </div>
 
-            {/* Social Media Marketing */}
+            {/* Viral Content & Growth */}
             <div className="group">
               <div className="bg-gradient-to-br from-gray-50 to-white rounded-3xl p-10 card-shadow group-hover:card-shadow-hover transition-all duration-500 border border-gray-100">
                 <div className="flex items-center mb-8">
                   <div className="bg-gradient-to-br from-secondary/10 to-secondary/5 w-16 h-16 rounded-2xl flex items-center justify-center mr-6">
-                    <Instagram className="h-8 w-8 text-secondary" />
+                    <Video className="h-8 w-8 text-secondary" />
                   </div>
                   <div>
-                    <h3 className="text-2xl font-bold text-slate-dark mb-2">Social Media Marketing</h3>
-                    <p className="text-gray-600">Strategy | Content | Advertising | Growth</p>
+                    <h3 className="text-2xl font-bold text-slate-dark mb-2">Viral Content & Growth</h3>
+                    <p className="text-gray-600">Editing | Reels | SEO</p>
                   </div>
                 </div>
                 <p className="text-gray-600 leading-relaxed mb-6">
-                  Strategic social media management that builds authentic communities and drives real business results. 
-                  From content planning to paid advertising campaigns that convert followers into customers.
+                  <span className="bg-gold/20 text-gold px-2 py-0.5 rounded text-sm font-semibold">VIP Only</span> You film the content on your phone, and we turn it into professional Reels/TikToks. Plus, we optimize your Google Profile to ensure you rank #1 when people search "Best Lash Tech in [City]."
                 </p>
                 <ul className="space-y-3 text-gray-600">
                   <li className="flex items-center gap-3">
                     <Check className="h-4 w-4 text-secondary" />
-                    <span>Instagram & Facebook ad campaigns</span>
+                    <span>Professional Video Editing (Reels & TikToks)</span>
                   </li>
                   <li className="flex items-center gap-3">
                     <Check className="h-4 w-4 text-secondary" />
-                    <span>Content strategy & scheduling</span>
+                    <span>Google Maps SEO to rank higher</span>
                   </li>
                   <li className="flex items-center gap-3">
                     <Check className="h-4 w-4 text-secondary" />
-                    <span>Community management & engagement</span>
+                    <span>Paid Ad Setup (to fill empty slots fast)</span>
                   </li>
                 </ul>
               </div>
@@ -329,20 +428,20 @@ export default function Home() {
           {/* Quick Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 pt-16 border-t border-gray-100">
             <div className="text-center">
-              <div className="text-3xl font-bold text-primary mb-2">3+</div>
-              <div className="text-gray-600">Years in Europe</div>
+              <div className="text-3xl font-bold text-primary mb-2">48h</div>
+              <div className="text-gray-600">Average Setup Time</div>
             </div>
             <div className="text-center">
               <div className="text-3xl font-bold text-secondary mb-2">15+</div>
-              <div className="text-gray-600">Beauty Brands</div>
+              <div className="text-gray-600">Salons Automated</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-primary mb-2">50K+</div>
-              <div className="text-gray-600">Content Views</div>
+              <div className="text-3xl font-bold text-primary mb-2">24/7</div>
+              <div className="text-gray-600">AI Availability</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-secondary mb-2">100%</div>
-              <div className="text-gray-600">Client Satisfaction</div>
+              <div className="text-3xl font-bold text-secondary mb-2">0</div>
+              <div className="text-gray-600">Phone Tag Required</div>
             </div>
           </div>
         </div>
@@ -357,145 +456,155 @@ export default function Home() {
             </div>
             <h2 className="text-4xl md:text-5xl font-bold text-slate-dark mb-6">Simple, Transparent Pricing</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              Choose the perfect plan to grow your beauty business with our proven marketing strategies
+              Choose the perfect plan to grow your beauty business
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {/* Basic Plan */}
+            {/* Essential Plan */}
             <div className="bg-white rounded-3xl p-8 card-shadow hover:card-shadow-hover transition-all duration-500 hover:-translate-y-2 border border-gray-100">
               <div className="text-center mb-8">
                 <div className="bg-gray-100 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                  <span className="text-2xl font-bold text-slate-dark">S</span>
+                  <Monitor className="h-8 w-8 text-slate-dark" />
                 </div>
-                <h3 className="text-2xl font-bold text-slate-dark mb-2">Basic</h3>
-                <div className="text-5xl font-bold text-slate-dark mb-2">€30<span className="text-lg text-gray-500 font-normal">/month</span></div>
-                <p className="text-gray-600">Perfect for getting started</p>
+                <h3 className="text-2xl font-bold text-slate-dark mb-2">The Essential</h3>
+                <p className="text-sm text-gray-500 mb-4">Best for new solo artists</p>
+                <div className="text-5xl font-bold text-slate-dark mb-2">$49<span className="text-lg text-gray-500 font-normal">/month</span></div>
+                <p className="text-sm text-gray-500">+ $299 one-time setup fee</p>
               </div>
               <ul className="space-y-4 mb-10">
-                <li className="flex items-center gap-3">
-                  <div className="bg-green-100 rounded-full p-1">
+                <li className="flex items-start gap-3">
+                  <div className="bg-green-100 rounded-full p-1 mt-0.5">
                     <Check className="h-4 w-4 text-green-600" />
                   </div>
-                  <span className="text-gray-700">Professional landing page</span>
+                  <span className="text-gray-700">💻 High-End Landing Page</span>
                 </li>
-                <li className="flex items-center gap-3">
-                  <div className="bg-green-100 rounded-full p-1">
+                <li className="flex items-start gap-3">
+                  <div className="bg-green-100 rounded-full p-1 mt-0.5">
                     <Check className="h-4 w-4 text-green-600" />
                   </div>
-                  <span className="text-gray-700">1 promotional video</span>
+                  <span className="text-gray-700">🔗 "Book Now" Button (Phone/DM)</span>
                 </li>
-                <li className="flex items-center gap-3">
-                  <div className="bg-green-100 rounded-full p-1">
+                <li className="flex items-start gap-3">
+                  <div className="bg-green-100 rounded-full p-1 mt-0.5">
                     <Check className="h-4 w-4 text-green-600" />
                   </div>
-                  <span className="text-gray-700">Basic analytics</span>
+                  <span className="text-gray-700">📱 Mobile Optimized</span>
                 </li>
-                <li className="flex items-center gap-3">
-                  <div className="bg-green-100 rounded-full p-1">
+                <li className="flex items-start gap-3">
+                  <div className="bg-green-100 rounded-full p-1 mt-0.5">
                     <Check className="h-4 w-4 text-green-600" />
                   </div>
-                  <span className="text-gray-700">Email support</span>
+                  <span className="text-gray-700">🔒 Hosting & Security included</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <div className="bg-green-100 rounded-full p-1 mt-0.5">
+                    <Check className="h-4 w-4 text-green-600" />
+                  </div>
+                  <span className="text-gray-700">🎨 Custom Logo Design</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <div className="bg-green-100 rounded-full p-1 mt-0.5">
+                    <Check className="h-4 w-4 text-green-600" />
+                  </div>
+                  <span className="text-gray-700">📇 Business Card Design (QR code)</span>
                 </li>
               </ul>
               <button className="w-full bg-gray-800 text-white py-4 rounded-2xl font-semibold hover:bg-gray-900 transition-colors text-lg">
-                Choose Basic
+                Get Started
               </button>
             </div>
 
-            {/* Pro Plan */}
+            {/* Auto-Booker Plan */}
             <div className="bg-white rounded-3xl p-8 card-shadow hover:card-shadow-hover transition-all duration-500 hover:-translate-y-2 border-2 border-primary relative scale-105">
               <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                <span className="bg-gradient-to-r from-primary to-secondary text-white px-6 py-2 rounded-full text-sm font-semibold shadow-lg">Most Popular</span>
+                <span className="bg-gradient-to-r from-primary to-secondary text-white px-6 py-2 rounded-full text-sm font-semibold shadow-lg">RECOMMENDED</span>
               </div>
               <div className="text-center mb-8">
                 <div className="bg-gradient-to-br from-primary to-secondary w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                  <span className="text-2xl font-bold text-white">P</span>
+                  <BarChart3 className="h-8 w-8 text-white" />
                 </div>
-                <h3 className="text-2xl font-bold text-slate-dark mb-2">Pro</h3>
-                <div className="text-5xl font-bold text-slate-dark mb-2">€80<span className="text-lg text-gray-500 font-normal">/month</span></div>
-                <p className="text-gray-600">Everything + ads management</p>
+                <h3 className="text-2xl font-bold text-slate-dark mb-2">The Auto-Booker</h3>
+                <p className="text-sm text-gray-500 mb-4">Stop playing "Phone Tag"</p>
+                <div className="text-5xl font-bold text-slate-dark mb-2">$99<span className="text-lg text-gray-500 font-normal">/month</span></div>
+                <p className="text-sm text-green-600 font-semibold">🎉 <span className="line-through text-gray-400">$299</span> Setup Fee WAIVED</p>
               </div>
               <ul className="space-y-4 mb-10">
-                <li className="flex items-center gap-3">
-                  <div className="bg-green-100 rounded-full p-1">
+                <li className="flex items-start gap-3">
+                  <div className="bg-green-100 rounded-full p-1 mt-0.5">
                     <Check className="h-4 w-4 text-green-600" />
                   </div>
-                  <span className="text-gray-700">Everything in Basic</span>
+                  <span className="text-gray-700">✅ Everything in Essential</span>
                 </li>
-                <li className="flex items-center gap-3">
-                  <div className="bg-green-100 rounded-full p-1">
+                <li className="flex items-start gap-3">
+                  <div className="bg-green-100 rounded-full p-1 mt-0.5">
                     <Check className="h-4 w-4 text-green-600" />
                   </div>
-                  <span className="text-gray-700">Instagram ads management</span>
+                  <span className="text-gray-700">📅 Auto-Booking System (24/7)</span>
                 </li>
-                <li className="flex items-center gap-3">
-                  <div className="bg-green-100 rounded-full p-1">
+                <li className="flex items-start gap-3">
+                  <div className="bg-green-100 rounded-full p-1 mt-0.5">
                     <Check className="h-4 w-4 text-green-600" />
                   </div>
-                  <span className="text-gray-700">€45 ad spend included</span>
+                  <span className="text-gray-700">🤖 AI Receptionist</span>
                 </li>
-                <li className="flex items-center gap-3">
-                  <div className="bg-green-100 rounded-full p-1">
+                <li className="flex items-start gap-3">
+                  <div className="bg-green-100 rounded-full p-1 mt-0.5">
                     <Check className="h-4 w-4 text-green-600" />
                   </div>
-                  <span className="text-gray-700">Weekly performance reports</span>
+                  <span className="text-gray-700">📲 SMS Reminders</span>
                 </li>
-                <li className="flex items-center gap-3">
-                  <div className="bg-green-100 rounded-full p-1">
+                <li className="flex items-start gap-3">
+                  <div className="bg-green-100 rounded-full p-1 mt-0.5">
                     <Check className="h-4 w-4 text-green-600" />
                   </div>
-                  <span className="text-gray-700">Priority support</span>
+                  <span className="text-gray-700">📍 Google Maps "Book" Button</span>
                 </li>
               </ul>
               <button className="w-full bg-gradient-to-r from-primary to-secondary text-white py-4 rounded-2xl font-semibold hover:shadow-xl transition-all text-lg">
-                Choose Pro
+                Start This Week
               </button>
+              <p className="text-center text-xs text-gray-500 mt-3">Limited time: No setup fee!</p>
             </div>
 
-            {/* VIP Plan */}
+            {/* Viral VIP Plan */}
             <div className="bg-white rounded-3xl p-8 card-shadow hover:card-shadow-hover transition-all duration-500 hover:-translate-y-2 border border-gray-100">
               <div className="text-center mb-8">
                 <div className="bg-gradient-to-br from-gold to-yellow-400 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                  <span className="text-2xl font-bold text-white">V</span>
+                  <Star className="h-8 w-8 text-white" />
                 </div>
-                <h3 className="text-2xl font-bold text-slate-dark mb-2">VIP</h3>
-                <div className="text-5xl font-bold text-slate-dark mb-2">€120<span className="text-lg text-gray-500 font-normal">/month</span></div>
-                <p className="text-gray-600">Full-service growth package</p>
+                <h3 className="text-2xl font-bold text-slate-dark mb-2">The Viral VIP</h3>
+                <p className="text-sm text-gray-500 mb-4">Dominate Instagram & Google</p>
+                <div className="text-5xl font-bold text-slate-dark mb-2">$249<span className="text-lg text-gray-500 font-normal">/month</span></div>
+                <p className="text-sm text-gray-500">+ $499 one-time setup fee</p>
               </div>
               <ul className="space-y-4 mb-10">
-                <li className="flex items-center gap-3">
-                  <div className="bg-green-100 rounded-full p-1">
+                <li className="flex items-start gap-3">
+                  <div className="bg-green-100 rounded-full p-1 mt-0.5">
                     <Check className="h-4 w-4 text-green-600" />
                   </div>
-                  <span className="text-gray-700">Everything in Pro</span>
+                  <span className="text-gray-700">✅ Everything in Auto-Booker</span>
                 </li>
-                <li className="flex items-center gap-3">
-                  <div className="bg-green-100 rounded-full p-1">
+                <li className="flex items-start gap-3">
+                  <div className="bg-green-100 rounded-full p-1 mt-0.5">
                     <Check className="h-4 w-4 text-green-600" />
                   </div>
-                  <span className="text-gray-700">Monthly video updates</span>
+                  <span className="text-gray-700">🎥 4 Pro Reels/TikToks per month</span>
                 </li>
-                <li className="flex items-center gap-3">
-                  <div className="bg-green-100 rounded-full p-1">
+                <li className="flex items-start gap-3">
+                  <div className="bg-green-100 rounded-full p-1 mt-0.5">
                     <Check className="h-4 w-4 text-green-600" />
                   </div>
-                  <span className="text-gray-700">Custom ad strategy</span>
+                  <span className="text-gray-700">🚀 Google SEO Boost</span>
                 </li>
-                <li className="flex items-center gap-3">
-                  <div className="bg-green-100 rounded-full p-1">
+                <li className="flex items-start gap-3">
+                  <div className="bg-green-100 rounded-full p-1 mt-0.5">
                     <Check className="h-4 w-4 text-green-600" />
                   </div>
-                  <span className="text-gray-700">A/B testing</span>
-                </li>
-                <li className="flex items-center gap-3">
-                  <div className="bg-green-100 rounded-full p-1">
-                    <Check className="h-4 w-4 text-green-600" />
-                  </div>
-                  <span className="text-gray-700">Dedicated account manager</span>
+                  <span className="text-gray-700">👑 Priority WhatsApp Support</span>
                 </li>
               </ul>
               <button className="w-full bg-gold text-white py-4 rounded-2xl font-semibold hover:bg-yellow-500 transition-colors text-lg">
-                Choose VIP
+                Go VIP
               </button>
             </div>
           </div>
@@ -505,34 +614,81 @@ export default function Home() {
       {/* How It Works Section */}
       <section className="py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-20">
+          <div className="text-center mb-16">
             <div className="inline-block bg-white rounded-full px-6 py-2 mb-6 shadow-sm">
               <span className="text-primary font-semibold">Our Process</span>
             </div>
             <h2 className="text-4xl md:text-5xl font-bold text-slate-dark mb-6">How It Works</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              From content to bookings in 5 simple steps that guarantee results
+              From zero to fully-booked in 5 simple steps
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
-            {[
-              { step: "01", title: "Upload Content", desc: "Send us photos/videos of your work", color: "from-primary to-secondary" },
-              { step: "02", title: "We Create", desc: "Our team crafts your landing page & videos", color: "from-secondary to-purple-500" },
-              { step: "03", title: "Launch Ads", desc: "We set up & run targeted Instagram campaigns", color: "from-purple-500 to-primary" },
-              { step: "04", title: "Get Leads", desc: "Qualified clients discover your business", color: "from-primary to-secondary" },
-              { step: "05", title: "Book More", desc: "Watch your appointment book fill up", color: "from-secondary to-purple-500" }
-            ].map((item, index) => (
-              <div key={index} className="text-center relative group">
-                <div className={`bg-gradient-to-br ${item.color} rounded-2xl w-20 h-20 flex items-center justify-center mx-auto mb-6 text-white font-bold text-xl shadow-lg group-hover:scale-110 transition-transform duration-300`}>
-                  {item.step}
-                </div>
-                <h3 className="text-xl font-bold text-slate-dark mb-3">{item.title}</h3>
-                <p className="text-gray-600 leading-relaxed">{item.desc}</p>
-                {index < 4 && (
-                  <div className="hidden md:block absolute top-10 left-full w-full h-0.5 bg-gradient-to-r from-gray-200 to-gray-300 transform -translate-y-1/2"></div>
-                )}
+          
+          <div className="max-w-4xl mx-auto space-y-8">
+            {/* Step 1 */}
+            <div className="bg-white rounded-2xl p-8 card-shadow flex flex-col md:flex-row gap-6 items-start">
+              <div className="bg-gradient-to-br from-primary to-secondary rounded-2xl w-16 h-16 flex-shrink-0 flex items-center justify-center text-white font-bold text-xl shadow-lg">
+                01
               </div>
-            ))}
+              <div>
+                <h3 className="text-2xl font-bold text-slate-dark mb-3">Share Your Vibe ✨</h3>
+                <p className="text-gray-600 leading-relaxed">
+                  You complete a simple 5-minute form. Upload your price list, your favorite photos, and tell us your color preference (e.g., "Pink & Gold"). We handle the rest.
+                </p>
+              </div>
+            </div>
+
+            {/* Step 2 */}
+            <div className="bg-white rounded-2xl p-8 card-shadow flex flex-col md:flex-row gap-6 items-start">
+              <div className="bg-gradient-to-br from-secondary to-purple-500 rounded-2xl w-16 h-16 flex-shrink-0 flex items-center justify-center text-white font-bold text-xl shadow-lg">
+                02
+              </div>
+              <div>
+                <h3 className="text-2xl font-bold text-slate-dark mb-3">The 48-Hour Makeover 💄</h3>
+                <p className="text-gray-600 leading-relaxed">
+                  Our team gets to work. Our web developer builds your high-end website and booking system, while our AI developer trains your AI Assistant to know your prices and hours perfectly.
+                </p>
+              </div>
+            </div>
+
+            {/* Step 3 */}
+            <div className="bg-white rounded-2xl p-8 card-shadow flex flex-col md:flex-row gap-6 items-start">
+              <div className="bg-gradient-to-br from-purple-500 to-primary rounded-2xl w-16 h-16 flex-shrink-0 flex items-center justify-center text-white font-bold text-xl shadow-lg">
+                03
+              </div>
+              <div>
+                <h3 className="text-2xl font-bold text-slate-dark mb-3">The Reveal 🤩</h3>
+                <p className="text-gray-600 leading-relaxed">
+                  Within 2 days, we send you a private link to preview your new Digital Storefront. It will look polished, professional, and ready for clients. You give us the thumbs up.
+                </p>
+              </div>
+            </div>
+
+            {/* Step 4 */}
+            <div className="bg-white rounded-2xl p-8 card-shadow flex flex-col md:flex-row gap-6 items-start">
+              <div className="bg-gradient-to-br from-primary to-secondary rounded-2xl w-16 h-16 flex-shrink-0 flex items-center justify-center text-white font-bold text-xl shadow-lg">
+                04
+              </div>
+              <div>
+                <h3 className="text-2xl font-bold text-slate-dark mb-3">Sync to Your Phone 📲</h3>
+                <p className="text-gray-600 leading-relaxed">
+                  We connect the system directly to your iPhone or Google Calendar. You don't need to learn new software—just keep using your phone calendar, and the website updates automatically.
+                </p>
+              </div>
+            </div>
+
+            {/* Step 5 */}
+            <div className="bg-white rounded-2xl p-8 card-shadow flex flex-col md:flex-row gap-6 items-start">
+              <div className="bg-gradient-to-br from-secondary to-purple-500 rounded-2xl w-16 h-16 flex-shrink-0 flex items-center justify-center text-white font-bold text-xl shadow-lg">
+                05
+              </div>
+              <div>
+                <h3 className="text-2xl font-bold text-slate-dark mb-3">Auto-Pilot Mode 🚀</h3>
+                <p className="text-gray-600 leading-relaxed">
+                  We flip the switch. Your website goes live, your Google Maps "Book" button gets activated, and you start waking up to new appointment notifications without lifting a finger.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
