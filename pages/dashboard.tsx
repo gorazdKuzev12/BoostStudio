@@ -102,10 +102,17 @@ interface CustomerProfile {
   visits: Visit[]
 }
 
+// Static earnings data - replace with API later
+const mockEarnings = {
+  today: 450,
+  week: 2100,
+  month: 8400
+}
+
 export default function DashboardPage() {
   const { user, loading } = useUser()
   const router = useRouter()
-  
+
   const CAL_LINK = 'gorazd-kuzev-oga4y8/15min'
   const [currentPlan] = useState<'essential' | 'auto-booker' | 'viral-vip'>('auto-booker')
   const [showAddBooking, setShowAddBooking] = useState(false)
@@ -115,6 +122,7 @@ export default function DashboardPage() {
   const [selectedCustomer, setSelectedCustomer] = useState<CustomerProfile | null>(null)
   const [customerTab, setCustomerTab] = useState<'history' | 'photos' | 'notes'>('history')
   const [showImageViewer, setShowImageViewer] = useState<{ before: string | null, after: string | null } | null>(null)
+  const [earnings] = useState(mockEarnings)
 
   const fetchBookings = async () => {
     try {
@@ -245,6 +253,33 @@ export default function DashboardPage() {
               </button>
             </div>
           </div>
+          
+          {/* Earnings Bar - Desktop (top) - Balanced Design */}
+          <div className="hidden sm:block bg-gradient-to-r from-slate-700 via-slate-600 to-slate-700 border-t border-slate-500/30">
+            <div className="max-w-5xl mx-auto w-full px-4 py-2.5 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
+                <span className="text-sm font-medium text-slate-300">Revenue</span>
+              </div>
+              <div className="flex items-center gap-8">
+                <div className="flex items-center gap-2">
+                  <span className="text-xs text-slate-400 uppercase tracking-wide">Today</span>
+                  <span className="font-bold text-primary text-lg">${earnings.today}</span>
+                </div>
+                <div className="w-px h-5 bg-slate-500/50"></div>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs text-slate-400 uppercase tracking-wide">Week</span>
+                  <span className="font-bold text-white text-lg">${earnings.week.toLocaleString()}</span>
+                </div>
+                <div className="w-px h-5 bg-slate-500/50"></div>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs text-slate-400 uppercase tracking-wide">Month</span>
+                  <span className="font-bold text-white text-lg">${earnings.month.toLocaleString()}</span>
+                  <TrendingUp className="h-4 w-4 text-green-400" />
+                </div>
+              </div>
+            </div>
+          </div>
         </header>
 
         <main className="max-w-5xl mx-auto">
@@ -261,7 +296,7 @@ export default function DashboardPage() {
               <span className="font-semibold text-gray-900">
                 {appointments.filter(a => a.status === 'accepted' || a.status === 'confirmed').length}
               </span>
-            </div>
+              </div>
             <div className="flex items-center gap-1.5">
               <span className="w-2 h-2 bg-amber-500 rounded-full"></span>
               <span className="text-gray-500">Pending</span>
@@ -286,7 +321,7 @@ export default function DashboardPage() {
               <button onClick={() => navigateWeek(1)} className="p-1.5 hover:bg-gray-100 rounded-lg">
                 <ChevronRight className="h-5 w-5 text-gray-600" />
               </button>
-            </div>
+                    </div>
 
             {/* Day Selector Strip */}
             <div className="px-2 pb-3 flex justify-between">
@@ -304,7 +339,7 @@ export default function DashboardPage() {
                 >
                   <div className={`text-[10px] uppercase ${isSelected(date) ? 'text-white/80' : 'text-gray-400'}`}>
                     {dayNames[date.getDay()]}
-                  </div>
+                    </div>
                   <div className={`text-lg font-semibold ${isSelected(date) ? 'text-white' : 'text-gray-900'}`}>
                     {date.getDate()}
                   </div>
@@ -313,8 +348,8 @@ export default function DashboardPage() {
                   )}
                 </button>
               ))}
-            </div>
-
+                </div>
+                
             {/* Today Button */}
             {!isToday(selectedDate) && (
               <div className="px-4 pb-2">
@@ -326,7 +361,7 @@ export default function DashboardPage() {
                 </button>
               </div>
             )}
-          </div>
+                        </div>
 
           {/* Selected Day Header */}
           <div className="px-4 py-3 flex items-center justify-between bg-gray-50">
@@ -338,7 +373,7 @@ export default function DashboardPage() {
                 {selectedDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
                 {' • '}{selectedDayBookings.length} appointment{selectedDayBookings.length !== 1 ? 's' : ''}
               </p>
-            </div>
+                        </div>
             <div className="flex items-center gap-2">
               <button
                 onClick={fetchBookings}
@@ -355,15 +390,15 @@ export default function DashboardPage() {
                 <Plus className="h-4 w-4" />
                 New Booking
               </button>
-            </div>
-          </div>
+                        </div>
+                        </div>
 
           {/* Appointments List - Compact Fresha Style */}
-          <div className="bg-white min-h-[50vh]">
+          <div className="bg-white min-h-[50vh] pb-20 sm:pb-0">
             {loadingBookings ? (
               <div className="flex items-center justify-center py-20">
                 <div className="animate-spin rounded-full h-6 w-6 border-2 border-primary border-t-transparent"></div>
-              </div>
+                        </div>
             ) : selectedDayBookings.length > 0 ? (
               <div className="divide-y divide-gray-100">
                 {selectedDayBookings
@@ -379,7 +414,7 @@ export default function DashboardPage() {
                       <div className="w-14 flex-shrink-0">
                         <div className="text-sm font-semibold text-gray-900">{booking.time}</div>
                         <div className="text-[10px] text-gray-400">15 min</div>
-                      </div>
+                        </div>
 
                       {/* Colored Bar */}
                       <div className={`w-1 h-12 rounded-full flex-shrink-0 ${
@@ -409,21 +444,21 @@ export default function DashboardPage() {
                           <div className="flex items-center gap-1 mt-1">
                             <Phone className="h-3 w-3 text-gray-400" />
                             <span className="text-xs text-gray-400">{booking.phone}</span>
-                          </div>
+                        </div>
                         )}
                       </div>
 
                       {/* Arrow indicator */}
                       <ChevronRight className="h-4 w-4 text-gray-300 flex-shrink-0" />
-                    </div>
+                        </div>
                   </button>
                 ))}
-              </div>
+                        </div>
             ) : (
               <div className="flex flex-col items-center justify-center py-20 px-6">
                 <div className="w-20 h-20 bg-amber-50 rounded-full flex items-center justify-center mb-5">
                   <Coffee className="h-10 w-10 text-amber-400" />
-                </div>
+                        </div>
                 <h3 className="font-semibold text-gray-900 text-lg mb-2">
                   {isToday(selectedDate) ? "Free day! ☕" : "Nothing booked"}
                 </h3>
@@ -439,9 +474,9 @@ export default function DashboardPage() {
                   <Plus className="h-4 w-4" />
                   Add Walk-In
                 </button>
-              </div>
-            )}
-          </div>
+                        </div>
+                    )}
+                  </div>
 
           {/* All Upcoming - Quick Overview */}
           {appointments.length > 0 && (
@@ -495,17 +530,43 @@ export default function DashboardPage() {
           )}
         </main>
 
-        {/* Floating Action Button - Mobile */}
-        <button
-          onClick={() => setShowAddBooking(true)}
-          className="fixed bottom-6 right-6 w-16 h-16 bg-primary text-white rounded-full shadow-xl shadow-primary/40 flex items-center justify-center sm:hidden z-30 active:scale-95 transition-transform"
-        >
-          <Plus className="h-7 w-7" />
-        </button>
-        
-        {/* FAB Label - appears above button */}
-        <div className="fixed bottom-[88px] right-6 bg-gray-900 text-white text-xs px-3 py-1.5 rounded-full shadow-lg sm:hidden z-30 pointer-events-none">
-          New Booking
+        {/* Earnings Bar - Mobile (sticky bottom) - Lighter Slate */}
+        <div className="fixed bottom-0 left-0 right-0 sm:hidden z-20">
+          <div className="bg-gradient-to-r from-slate-600 via-slate-500 to-slate-600 border-t border-slate-400/30 shadow-[0_-4px_15px_rgba(0,0,0,0.1)] px-3 py-2.5">
+            <div className="flex items-center justify-between gap-1.5">
+              {/* Today - Highlighted */}
+              <div className="flex-1 bg-primary/20 rounded-lg px-2 py-1.5 border border-primary/30">
+                <div className="flex items-center gap-1 mb-0.5">
+                  <div className="w-1.5 h-1.5 bg-primary rounded-full animate-pulse"></div>
+                  <span className="text-[9px] text-primary uppercase tracking-wide font-medium">Today</span>
+                </div>
+                <span className="text-base font-bold text-white">${earnings.today}</span>
+              </div>
+
+              {/* Week */}
+              <div className="flex-1 bg-white/10 rounded-lg px-2 py-1.5">
+                <span className="text-[9px] text-slate-300 uppercase tracking-wide block mb-0.5">Week</span>
+                <span className="text-base font-bold text-white">${earnings.week.toLocaleString()}</span>
+              </div>
+
+              {/* Month */}
+              <div className="flex-1 bg-white/10 rounded-lg px-2 py-1.5">
+                <div className="flex items-center gap-1 mb-0.5">
+                  <span className="text-[9px] text-slate-300 uppercase tracking-wide">Month</span>
+                  <TrendingUp className="h-2.5 w-2.5 text-green-400" />
+                </div>
+                <span className="text-base font-bold text-white">${(earnings.month / 1000).toFixed(1)}k</span>
+              </div>
+
+              {/* FAB */}
+              <button
+                onClick={() => setShowAddBooking(true)}
+                className="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-xl shadow-lg shadow-primary/30 flex items-center justify-center active:scale-95 transition-transform"
+              >
+                <Plus className="h-5 w-5 text-white" />
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -536,7 +597,7 @@ export default function DashboardPage() {
               />
             </div>
           </div>
-        </div>
+                  </div>
       )}
 
       {/* Customer Profile Modal - Bottom Sheet Style */}
@@ -552,7 +613,7 @@ export default function DashboardPage() {
             {/* Drag Handle - Mobile */}
             <div className="flex justify-center pt-2 pb-1 sm:hidden">
               <div className="w-10 h-1 bg-gray-300 rounded-full"></div>
-            </div>
+                  </div>
 
             {/* Customer Header */}
             <div className="px-4 pt-3 pb-4 bg-gradient-to-br from-primary/5 to-secondary/5">
@@ -582,14 +643,14 @@ export default function DashboardPage() {
                 >
                   <X className="h-5 w-5 text-gray-500" />
                 </button>
-              </div>
+                  </div>
 
               {/* Quick Stats */}
               <div className="grid grid-cols-4 gap-2">
                 <div className="bg-white/80 backdrop-blur-sm rounded-xl p-2.5 text-center">
                   <div className="text-lg font-bold text-gray-900">{selectedCustomer.totalVisits}</div>
                   <div className="text-[10px] text-gray-500 uppercase tracking-wide">Visits</div>
-                </div>
+                  </div>
                 <div className="bg-white/80 backdrop-blur-sm rounded-xl p-2.5 text-center">
                   <div className="text-lg font-bold text-green-600">${selectedCustomer.totalSpent}</div>
                   <div className="text-[10px] text-gray-500 uppercase tracking-wide">Spent</div>
@@ -600,14 +661,14 @@ export default function DashboardPage() {
                     <span className="text-lg font-bold text-gray-900">{selectedCustomer.avgRating}</span>
                   </div>
                   <div className="text-[10px] text-gray-500 uppercase tracking-wide">Rating</div>
-                </div>
+                  </div>
                 <div className="bg-white/80 backdrop-blur-sm rounded-xl p-2.5 text-center">
                   <div className="text-lg font-bold text-gray-900">{selectedCustomer.noShowRate}%</div>
                   <div className="text-[10px] text-gray-500 uppercase tracking-wide">No-show</div>
                 </div>
               </div>
-            </div>
-
+                  </div>
+                  
             {/* Quick Actions */}
             <div className="px-4 py-3 flex gap-2 border-b border-gray-100">
               <a 
@@ -626,9 +687,9 @@ export default function DashboardPage() {
               </a>
               <button className="flex items-center justify-center gap-2 px-4 py-2.5 bg-gray-100 text-gray-700 rounded-xl font-medium text-sm active:scale-95 transition-transform">
                 <Edit3 className="h-4 w-4" />
-              </button>
-            </div>
-
+                          </button>
+                        </div>
+                        
             {/* Tab Navigation */}
             <div className="flex border-b border-gray-100">
               {[
@@ -652,7 +713,7 @@ export default function DashboardPage() {
             </div>
 
             {/* Tab Content */}
-            <div className="flex-1 overflow-y-auto">
+            <div className="flex-1 overflow-y-auto scrollbar-pretty">
               {/* History Tab */}
               {customerTab === 'history' && (
                 <div className="divide-y divide-gray-100">
@@ -755,8 +816,8 @@ export default function DashboardPage() {
                       <p className="text-gray-400 text-xs mt-1">Take before/after photos at next visit</p>
                     </div>
                   )}
-                </div>
-              )}
+                      </div>
+                    )}
 
               {/* Notes Tab */}
               {customerTab === 'notes' && (
@@ -879,11 +940,11 @@ export default function DashboardPage() {
                   className="w-full h-auto rounded-2xl"
                 />
                 <span className="absolute bottom-4 left-4 text-sm bg-green-500 text-white px-3 py-1 rounded-full">✨ After</span>
-              </div>
-            )}
+            </div>
+          )}
           </div>
-        </div>
+      </div>
       )}
     </>
   )
-}
+} 

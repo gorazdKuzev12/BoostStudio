@@ -1,6 +1,330 @@
 import { useState } from 'react'
-import { ChevronLeft, ChevronRight, Star, Play, Check, Sparkles, Video, Globe, BarChart3, Monitor, Instagram, Facebook, Linkedin, MessageCircle, Users, TrendingUp, Camera, Palette, Target } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Star, Play, Check, Sparkles, Video, Globe, BarChart3, Monitor, Instagram, Facebook, Linkedin, MessageCircle, Users, TrendingUp, Camera, Palette, Target, Eye } from 'lucide-react'
 import Link from 'next/link'
+
+// Hover Preview Component for Logo Design
+const LogoPreview = ({ children }) => (
+  <div className="relative inline-block group/preview">
+    {children}
+    <div className="absolute left-0 bottom-full mb-3 opacity-0 invisible group-hover/preview:opacity-100 group-hover/preview:visible transition-all duration-300 z-50 transform group-hover/preview:translate-y-0 translate-y-2">
+      <div className="w-64 bg-white rounded-xl shadow-2xl border border-gray-100 p-4 relative">
+        {/* Arrow */}
+        <div className="absolute -bottom-2 left-8 w-4 h-4 bg-white border-r border-b border-gray-100 transform rotate-45"></div>
+        
+        {/* Logo Mockup - CSS Only */}
+        <div className="bg-gradient-to-br from-gray-50 to-white rounded-lg p-5 border border-gray-100">
+          <div className="w-16 h-16 mx-auto relative">
+            <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary via-purple-500 to-secondary p-[2px]">
+              <div className="w-full h-full rounded-full bg-white flex items-center justify-center">
+                <span className="text-2xl font-serif font-bold bg-gradient-to-br from-primary to-secondary bg-clip-text text-transparent">S</span>
+              </div>
+            </div>
+          </div>
+          <div className="mt-3 text-center">
+            <span className="text-sm font-semibold text-gray-800">Sarah's Salon</span>
+            <div className="text-[9px] text-gray-400 uppercase tracking-widest mt-0.5">Beauty & Wellness</div>
+          </div>
+        </div>
+        <p className="text-[10px] text-gray-400 text-center mt-3">Designed to match your brand ✨</p>
+      </div>
+    </div>
+  </div>
+)
+
+// Hover Preview Component for Custom Domain
+const HostingPreview = ({ children }) => (
+  <div className="relative inline-block group/preview">
+    {children}
+    <div className="absolute left-0 bottom-full mb-3 opacity-0 invisible group-hover/preview:opacity-100 group-hover/preview:visible transition-all duration-300 z-50 transform group-hover/preview:translate-y-0 translate-y-2">
+      <div className="w-72 bg-white rounded-xl shadow-2xl border border-gray-100 p-4 relative">
+        {/* Arrow */}
+        <div className="absolute -bottom-2 left-8 w-4 h-4 bg-white border-r border-b border-gray-100 transform rotate-45"></div>
+        
+        {/* Good URL */}
+        <div className="flex items-center gap-3 p-3 bg-green-50 rounded-lg border border-green-100 mb-3">
+          <div className="w-8 h-8 rounded-full bg-green-500 flex items-center justify-center flex-shrink-0">
+            <Check className="h-4 w-4 text-white" />
+          </div>
+          <div>
+            <div className="text-[10px] text-green-600 font-medium uppercase tracking-wide">You Get</div>
+            <div className="text-sm font-bold text-gray-900">sarahsalon.com</div>
+          </div>
+        </div>
+        
+        {/* Bad URL */}
+        <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg border border-gray-200 opacity-70 relative overflow-hidden">
+          <div className="absolute inset-0 flex items-center">
+            <div className="w-full h-[1px] bg-red-400/60"></div>
+          </div>
+          <div className="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center flex-shrink-0">
+            <span className="text-gray-500 text-sm">✕</span>
+          </div>
+          <div>
+            <div className="text-[10px] text-gray-400 font-medium uppercase tracking-wide">Others Give You</div>
+            <div className="text-[10px] text-gray-500">booking-site.com/users/sarah-829</div>
+          </div>
+        </div>
+        
+        <p className="text-[10px] text-gray-400 text-center mt-3 italic">Your brand, your domain. Not theirs.</p>
+        
+        <div className="flex items-center justify-center gap-3 mt-3 pt-3 border-t border-gray-100 text-[10px] text-gray-500">
+          <span>🔒 SSL</span>
+          <span>⚡ Fast Hosting</span>
+          <span>✓ Included</span>
+        </div>
+      </div>
+    </div>
+  </div>
+)
+
+// Hover Preview Component for Business Card
+const BusinessCardPreview = ({ children }) => (
+  <div className="relative inline-block group/preview">
+    {children}
+    <div className="absolute left-0 bottom-full mb-3 opacity-0 invisible group-hover/preview:opacity-100 group-hover/preview:visible transition-all duration-300 z-50 transform group-hover/preview:translate-y-0 translate-y-2">
+      <div className="w-72 bg-white rounded-xl shadow-2xl border border-gray-100 p-4 relative">
+        {/* Arrow */}
+        <div className="absolute -bottom-2 left-8 w-4 h-4 bg-white border-r border-b border-gray-100 transform rotate-45"></div>
+        
+        {/* Business Card Mockup */}
+        <div 
+          className="relative bg-gray-900 rounded-lg p-4 shadow-lg"
+          style={{ aspectRatio: '1.6/1' }}
+        >
+          {/* Subtle gradient border */}
+          <div className="absolute inset-0 rounded-lg bg-gradient-to-br from-primary/20 via-transparent to-secondary/20"></div>
+          
+          {/* Card Content */}
+          <div className="relative h-full flex flex-col justify-between">
+            {/* Top */}
+            <div className="flex items-center gap-2">
+              <div className="w-6 h-6 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+                <span className="text-white font-serif font-bold text-xs">S</span>
+              </div>
+              <span className="text-white font-medium text-xs">Sarah's Salon</span>
+            </div>
+            
+            {/* Bottom */}
+            <div className="flex items-end justify-between">
+              <div className="space-y-0.5">
+                <div className="text-[8px] text-gray-400">+1 (555) 123-4567</div>
+                <div className="text-[8px] text-primary">sarahsalon.com</div>
+              </div>
+              
+              {/* QR Code */}
+              <div className="w-8 h-8 bg-white rounded p-1">
+                <div className="w-full h-full grid grid-cols-4 grid-rows-4 gap-[1px]">
+                  {[...Array(16)].map((_, i) => (
+                    <div key={i} className={`${[0,1,3,4,6,9,11,12,14,15].includes(i) ? 'bg-gray-900' : 'bg-gray-200'}`}></div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <p className="text-[10px] text-gray-400 text-center mt-3">Print-ready with QR code 📇</p>
+      </div>
+    </div>
+  </div>
+)
+
+// Hover Preview Component for Photo Dump Strategy
+const PhotoDumpPreview = ({ children }) => (
+  <div className="relative inline-block group/preview">
+    {children}
+    <div className="absolute left-0 bottom-full mb-3 opacity-0 invisible group-hover/preview:opacity-100 group-hover/preview:visible transition-all duration-300 z-50 transform group-hover/preview:translate-y-0 translate-y-2">
+      <div className="w-72 bg-white rounded-xl shadow-2xl border border-gray-100 p-4 relative">
+        {/* Arrow */}
+        <div className="absolute -bottom-2 left-8 w-4 h-4 bg-white border-r border-b border-gray-100 transform rotate-45"></div>
+        
+        {/* Google Maps Photo Grid */}
+        <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
+          <div className="flex items-center gap-2 mb-3">
+            <div className="w-5 h-5 bg-blue-500 rounded flex items-center justify-center">
+              <span className="text-white text-[10px] font-bold">G</span>
+            </div>
+            <span className="text-xs font-medium text-gray-700">Google Maps Photos</span>
+          </div>
+          <div className="grid grid-cols-4 gap-1">
+            {[...Array(4)].map((_, i) => (
+              <div key={i} className="aspect-square rounded bg-gradient-to-br from-pink-200 to-purple-200 flex items-center justify-center">
+                <span className="text-[10px]">{['💅', '✨', '💇‍♀️', '🌸'][i]}</span>
+              </div>
+            ))}
+          </div>
+          <div className="mt-2 flex items-center gap-1">
+            <span className="text-[10px] text-green-600 font-medium">+4 new this month</span>
+            <Check className="h-3 w-3 text-green-600" />
+          </div>
+        </div>
+        <p className="text-[10px] text-gray-500 text-center mt-3">Google ranks active profiles higher 📸</p>
+      </div>
+    </div>
+  </div>
+)
+
+// Hover Preview Component for Google Updates Post
+const GoogleUpdatePreview = ({ children }) => (
+  <div className="relative inline-block group/preview">
+    {children}
+    <div className="absolute left-0 bottom-full mb-3 opacity-0 invisible group-hover/preview:opacity-100 group-hover/preview:visible transition-all duration-300 z-50 transform group-hover/preview:translate-y-0 translate-y-2">
+      <div className="w-72 bg-white rounded-xl shadow-2xl border border-gray-100 p-4 relative">
+        {/* Arrow */}
+        <div className="absolute -bottom-2 left-8 w-4 h-4 bg-white border-r border-b border-gray-100 transform rotate-45"></div>
+        
+        {/* Google Update Post Mockup */}
+        <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
+          <div className="flex items-center gap-2 mb-3">
+            <div className="w-5 h-5 bg-blue-500 rounded flex items-center justify-center">
+              <span className="text-white text-[10px] font-bold">G</span>
+            </div>
+            <span className="text-xs font-medium text-gray-700">Google Business Update</span>
+          </div>
+          <div className="bg-white rounded-lg p-2 border border-gray-100">
+            <div className="w-full h-16 bg-gradient-to-br from-pink-100 to-purple-100 rounded mb-2 flex items-center justify-center">
+              <span className="text-2xl">💅✨</span>
+            </div>
+            <p className="text-[10px] text-gray-600 mb-2">New slots open for December! Book your holiday lashes now 🎄</p>
+            <div className="bg-primary text-white text-[9px] font-medium py-1 px-2 rounded text-center">
+              Book Online →
+            </div>
+          </div>
+        </div>
+        <p className="text-[10px] text-gray-500 text-center mt-3">Posted monthly to keep profile active 📍</p>
+      </div>
+    </div>
+  </div>
+)
+
+// Hover Preview Component for Smart Reputation Guard
+const ReputationGuardPreview = ({ children }) => (
+  <div className="relative inline-block group/preview">
+    {children}
+    <div className="absolute left-0 bottom-full mb-3 opacity-0 invisible group-hover/preview:opacity-100 group-hover/preview:visible transition-all duration-300 z-50 transform group-hover/preview:translate-y-0 translate-y-2">
+      <div className="w-80 bg-white rounded-xl shadow-2xl border border-gray-100 p-4 relative">
+        {/* Arrow */}
+        <div className="absolute -bottom-2 left-8 w-4 h-4 bg-white border-r border-b border-gray-100 transform rotate-45"></div>
+        
+        {/* Email Flow Mockup */}
+        <div className="space-y-3">
+          <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
+            <p className="text-[10px] text-gray-500 mb-2">After appointment, client receives:</p>
+            <div className="bg-white rounded-lg p-3 border border-gray-100">
+              <p className="text-xs font-medium text-gray-700 mb-2">How was your visit? 💅</p>
+              <div className="flex gap-1 justify-center">
+                {[1,2,3,4,5].map((star) => (
+                  <div key={star} className="w-8 h-8 bg-yellow-100 rounded flex items-center justify-center cursor-pointer hover:bg-yellow-200 transition-colors">
+                    <span className="text-lg">⭐</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+          
+          <div className="flex gap-2">
+            <div className="flex-1 bg-green-50 rounded-lg p-2 border border-green-200">
+              <p className="text-[10px] font-medium text-green-700 mb-1">5 Stars →</p>
+              <p className="text-[9px] text-green-600">Redirect to Google Review</p>
+            </div>
+            <div className="flex-1 bg-orange-50 rounded-lg p-2 border border-orange-200">
+              <p className="text-[10px] font-medium text-orange-700 mb-1">1-4 Stars →</p>
+              <p className="text-[9px] text-orange-600">Private feedback form</p>
+            </div>
+          </div>
+        </div>
+        <p className="text-[10px] text-gray-500 text-center mt-3">4.9⭐ salons rank higher than 4.5⭐ on Google Maps</p>
+      </div>
+    </div>
+  </div>
+)
+
+// Hover Preview Component for Birthday Gift
+const BirthdayGiftPreview = ({ children }) => (
+  <div className="relative inline-block group/preview">
+    {children}
+    <div className="absolute left-0 bottom-full mb-3 opacity-0 invisible group-hover/preview:opacity-100 group-hover/preview:visible transition-all duration-300 z-50 transform group-hover/preview:translate-y-0 translate-y-2">
+      <div className="w-72 bg-white rounded-xl shadow-2xl border border-gray-100 p-4 relative">
+        {/* Arrow */}
+        <div className="absolute -bottom-2 left-8 w-4 h-4 bg-white border-r border-b border-gray-100 transform rotate-45"></div>
+        
+        {/* Birthday Email Mockup */}
+        <div className="bg-gradient-to-br from-pink-50 to-purple-50 rounded-lg p-3 border border-pink-200">
+          <div className="text-center mb-2">
+            <span className="text-3xl">🎂</span>
+          </div>
+          <div className="bg-white rounded-lg p-3 border border-gray-100 text-center">
+            <p className="text-xs font-bold text-gray-800 mb-1">Happy Birthday Sarah! 🎉</p>
+            <p className="text-[10px] text-gray-600 mb-2">Here's 15% off your next visit</p>
+            <div className="bg-gradient-to-r from-primary to-secondary text-white text-[10px] font-medium py-1.5 px-3 rounded-lg inline-block">
+              BDAY15
+            </div>
+          </div>
+          <p className="text-[9px] text-gray-500 text-center mt-2">Auto-sent 3 days before birthday</p>
+        </div>
+        <p className="text-[10px] text-gray-500 text-center mt-3">Set it once, runs forever 🔄</p>
+      </div>
+    </div>
+  </div>
+)
+
+// Hover Preview Component for Flash Sale
+const FlashSalePreview = ({ children }) => (
+  <div className="relative inline-block group/preview">
+    {children}
+    <div className="absolute left-0 bottom-full mb-3 opacity-0 invisible group-hover/preview:opacity-100 group-hover/preview:visible transition-all duration-300 z-50 transform group-hover/preview:translate-y-0 translate-y-2">
+      <div className="w-72 bg-white rounded-xl shadow-2xl border border-gray-100 p-4 relative">
+        {/* Arrow */}
+        <div className="absolute -bottom-2 left-8 w-4 h-4 bg-white border-r border-b border-gray-100 transform rotate-45"></div>
+        
+        {/* Flash Sale Mockup */}
+        <div className="bg-gradient-to-br from-red-50 to-orange-50 rounded-lg p-3 border border-red-200">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-xl">⚡</span>
+            <span className="bg-red-500 text-white text-[9px] font-bold px-2 py-0.5 rounded">48H ONLY</span>
+          </div>
+          <div className="bg-white rounded-lg p-3 border border-gray-100">
+            <p className="text-xs font-bold text-gray-800 mb-1">Empty slots this Thursday!</p>
+            <p className="text-[10px] text-gray-600 mb-2">20% off lash fills — only 3 spots left</p>
+            <div className="bg-red-500 text-white text-[10px] font-medium py-1.5 px-3 rounded-lg text-center">
+              Book Now →
+            </div>
+          </div>
+        </div>
+        <p className="text-[10px] text-gray-500 text-center mt-3">Fill empty calendar slots instantly 📅</p>
+      </div>
+    </div>
+  </div>
+)
+
+// Hover Preview Component for Win-Back Bot
+const WinBackPreview = ({ children }) => (
+  <div className="relative inline-block group/preview">
+    {children}
+    <div className="absolute left-0 bottom-full mb-3 opacity-0 invisible group-hover/preview:opacity-100 group-hover/preview:visible transition-all duration-300 z-50 transform group-hover/preview:translate-y-0 translate-y-2">
+      <div className="w-72 bg-white rounded-xl shadow-2xl border border-gray-100 p-4 relative">
+        {/* Arrow */}
+        <div className="absolute -bottom-2 left-8 w-4 h-4 bg-white border-r border-b border-gray-100 transform rotate-45"></div>
+        
+        {/* Win-Back Email Mockup */}
+        <div className="bg-gradient-to-br from-purple-50 to-blue-50 rounded-lg p-3 border border-purple-200">
+          <div className="flex items-center gap-2 mb-2">
+            <span className="text-xl">🧟‍♀️</span>
+            <span className="text-[10px] text-purple-600 font-medium">Auto-triggered after 60 days inactive</span>
+          </div>
+          <div className="bg-white rounded-lg p-3 border border-gray-100">
+            <p className="text-xs font-bold text-gray-800 mb-1">We miss you! 💕</p>
+            <p className="text-[10px] text-gray-600 mb-2">It's been a while since your last lash fill. Come back for 10% off!</p>
+            <div className="bg-gradient-to-r from-purple-500 to-blue-500 text-white text-[10px] font-medium py-1.5 px-3 rounded-lg text-center">
+              Book Your Comeback →
+            </div>
+          </div>
+        </div>
+        <p className="text-[10px] text-gray-500 text-center mt-3">Bring back "ghost" clients automatically 👻</p>
+      </div>
+    </div>
+  </div>
+)
 
 export default function Home() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0)
@@ -137,69 +461,72 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             
             {/* Left Side - Content */}
-            <div className="order-2 lg:order-1 animate-fade-in-up">
-              {/* Badge */}
-              <div className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm border border-purple-200 rounded-full px-5 py-2.5 mb-8 shadow-sm">
-                <span className="text-lg">✨</span>
-                <span className="text-sm font-medium text-slate-dark">Loved in Europe • Now in USA</span>
-              </div>
-              
+            <div className="order-2 lg:order-1 animate-fade-in-up mt-6 lg:mt-0">
+            
               {/* Headline */}
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-dark mb-6 leading-tight">
-                European Design.
-                <br />
+                Your Personal Digital Agency
+              <br />
                 <span className="bg-gradient-to-r from-primary via-purple-500 to-secondary bg-clip-text text-transparent">
-                  Silicon Valley Intelligence.
+                  for the cost of just one appointment.
                 </span>
-              </h1>
-              
+            </h1>
+            
               {/* Subhead */}
-              <p className="text-lg md:text-xl text-gray-600 mb-8 leading-relaxed max-w-xl">
-                Stop losing clients to voicemail. We build stunning, mobile-first websites equipped with an 
-                <span className="font-semibold text-slate-dark"> AI Receptionist</span> that works while you sleep.
+              <p className="text-base md:text-lg text-gray-600 mb-6 leading-relaxed max-w-lg">
+                We design your professional website, train your AI receptionist, automate your bookings, manage your CRM, and handle all the tech. 
+                <span className="font-semibold text-slate-dark"> Stop juggling tools and freelancers.</span>
               </p>
               
-              {/* Features */}
-              <div className="space-y-4 mb-10">
-                <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-xl flex items-center justify-center">
-                    <span className="text-xl">✨</span>
-                  </div>
+              {/* Features - Compact with descriptions */}
+              <div className="space-y-3 mb-8">
+                <div className="flex items-start gap-3">
+                  <span className="text-lg mt-0.5">🌐</span>
                   <div>
-                    <h3 className="font-semibold text-slate-dark mb-1">Stunning Visuals that Convert</h3>
-                    <p className="text-gray-600 text-sm">Pixel-perfect design tailored to the US market.</p>
+                    <span className="font-semibold text-slate-dark text-sm">Free Custom Domain</span>
+                    <span className="text-gray-500 text-sm"> — YourSalon.com. You own the brand.</span>
                   </div>
                 </div>
-                
-                <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-green-100 to-emerald-100 rounded-xl flex items-center justify-center">
-                    <span className="text-xl">📅</span>
-                  </div>
+                <div className="flex items-start gap-3">
+                  <span className="text-lg mt-0.5">📅</span>
                   <div>
-                    <h3 className="font-semibold text-slate-dark mb-1">Fully Integrated Booking Calendar</h3>
-                    <p className="text-gray-600 text-sm">Syncs with your iPhone/Google Calendar. Clients book 24/7, you never get double-booked.</p>
+                    <span className="font-semibold text-slate-dark text-sm">Auto-Booking Calendar</span>
+                    <span className="text-gray-500 text-sm"> — Syncs with your phone. Clients book 24/7.</span>
                   </div>
                 </div>
-                
-                <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-secondary/10 to-purple-100 rounded-xl flex items-center justify-center">
-                    <span className="text-xl">🧠</span>
-                  </div>
+                <div className="flex items-start gap-3">
+                  <span className="text-lg mt-0.5">💳</span>
                   <div>
-                    <h3 className="font-semibold text-slate-dark mb-1">The Receptionist That Never Sleeps</h3>
-                    <p className="text-gray-600 text-sm">An embedded AI agent that answers questions and fills your calendar 24/7.</p>
+                    <span className="font-semibold text-slate-dark text-sm">Your Money, Your Control</span>
+                    <span className="text-gray-500 text-sm"> — Stripe pays YOU directly. We never touch it.</span>
                   </div>
                 </div>
+              
+                <div className="flex items-start gap-3">
+                  <span className="text-lg mt-0.5">✨</span>
+                  <div>
+                    <span className="font-semibold text-slate-dark text-sm">Stunning Website</span>
+                    <span className="text-gray-500 text-sm"> — Pixel-perfect, crafted by our team.</span>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <span className="text-lg mt-0.5">🧠</span>
+                  <div>
+                    <span className="font-semibold text-slate-dark text-sm">AI Receptionist</span>
+                    <span className="text-gray-500 text-sm"> — Answers questions & books while you sleep.</span>
+                  </div>
+                </div>
+              
               </div>
               
               {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Link href="/create-landing-page" className="bg-gradient-to-r from-primary to-secondary text-white px-8 py-4 rounded-2xl text-lg font-semibold hover:shadow-2xl hover:shadow-primary/25 transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 text-center">
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Link href="/create-landing-page" className="bg-gradient-to-r from-primary to-secondary text-white px-6 py-3 rounded-xl text-base font-semibold hover:shadow-xl hover:shadow-primary/25 transition-all duration-300 transform hover:scale-105 text-center">
                   Get Started Now
                 </Link>
-                <button className="group border-2 border-gray-200 bg-white/80 backdrop-blur-sm text-slate-dark px-8 py-4 rounded-2xl text-lg font-semibold hover:border-primary hover:bg-white transition-all duration-300 flex items-center justify-center gap-3">
-                  <div className="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <Play className="h-4 w-4 text-white ml-0.5" />
+                <button className="group border-2 border-gray-200 bg-white/80 backdrop-blur-sm text-slate-dark px-6 py-3 rounded-xl text-base font-semibold hover:border-primary hover:bg-white transition-all duration-300 flex items-center justify-center gap-2">
+                  <div className="w-8 h-8 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <Play className="h-3 w-3 text-white ml-0.5" />
                   </div>
                   Watch Demo
                 </button>
@@ -207,8 +534,8 @@ export default function Home() {
             </div>
             
             {/* Right Side - Laptop Mockup with Video */}
-            <div className="order-1 lg:order-2 flex justify-center lg:justify-end">
-              <div className="relative w-full max-w-lg lg:max-w-xl">
+            <div className="order-1 lg:order-2 flex justify-center lg:justify-end lg:-mt-12">
+              <div className="relative w-full max-w-xl lg:max-w-2xl">
                 {/* Laptop Frame */}
                 <div className="relative">
                   {/* Screen Bezel */}
@@ -469,14 +796,14 @@ export default function Home() {
                 <h3 className="text-2xl font-bold text-slate-dark mb-2">The Essential</h3>
                 <p className="text-sm text-gray-500 mb-4">Best for new solo artists</p>
                 <div className="text-5xl font-bold text-slate-dark mb-2">$49<span className="text-lg text-gray-500 font-normal">/month</span></div>
-                <p className="text-sm text-gray-500">+ $299 one-time setup fee</p>
+                <p className="text-sm text-gray-500">+ $199 one-time setup fee</p>
               </div>
               <ul className="space-y-4 mb-10">
                 <li className="flex items-start gap-3">
                   <div className="bg-green-100 rounded-full p-1 mt-0.5">
                     <Check className="h-4 w-4 text-green-600" />
                   </div>
-                  <span className="text-gray-700">💻 High-End Landing Page</span>
+                  <span className="text-gray-700">💻 High-End Website</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <div className="bg-green-100 rounded-full p-1 mt-0.5">
@@ -494,19 +821,40 @@ export default function Home() {
                   <div className="bg-green-100 rounded-full p-1 mt-0.5">
                     <Check className="h-4 w-4 text-green-600" />
                   </div>
-                  <span className="text-gray-700">🔒 Hosting & Security included</span>
+                  <span className="text-gray-700">🔍 SEO Optimized (Rank on Google)</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <div className="bg-green-100 rounded-full p-1 mt-0.5">
                     <Check className="h-4 w-4 text-green-600" />
                   </div>
-                  <span className="text-gray-700">🎨 Custom Logo Design</span>
+                  <HostingPreview>
+                    <span className="text-gray-700 border-b border-dashed border-gray-400 cursor-pointer hover:text-primary hover:border-primary transition-colors inline-flex items-center gap-1.5">
+                      🌐 Free Custom Domain
+                      <Eye className="h-3.5 w-3.5 text-gray-400" />
+                    </span>
+                  </HostingPreview>
                 </li>
                 <li className="flex items-start gap-3">
                   <div className="bg-green-100 rounded-full p-1 mt-0.5">
                     <Check className="h-4 w-4 text-green-600" />
                   </div>
-                  <span className="text-gray-700">📇 Business Card Design (QR code)</span>
+                  <LogoPreview>
+                    <span className="text-gray-700 border-b border-dashed border-gray-400 cursor-pointer hover:text-primary hover:border-primary transition-colors inline-flex items-center gap-1.5">
+                      🎨 Custom Logo Design
+                      <Eye className="h-3.5 w-3.5 text-gray-400" />
+                    </span>
+                  </LogoPreview>
+                </li>
+                <li className="flex items-start gap-3">
+                  <div className="bg-green-100 rounded-full p-1 mt-0.5">
+                    <Check className="h-4 w-4 text-green-600" />
+                  </div>
+                  <BusinessCardPreview>
+                    <span className="text-gray-700 border-b border-dashed border-gray-400 cursor-pointer hover:text-primary hover:border-primary transition-colors inline-flex items-center gap-1.5">
+                      📇 Business Card Design (QR code)
+                      <Eye className="h-3.5 w-3.5 text-gray-400" />
+                    </span>
+                  </BusinessCardPreview>
                 </li>
               </ul>
               <button className="w-full bg-gray-800 text-white py-4 rounded-2xl font-semibold hover:bg-gray-900 transition-colors text-lg">
@@ -526,7 +874,7 @@ export default function Home() {
                 <h3 className="text-2xl font-bold text-slate-dark mb-2">The Auto-Booker</h3>
                 <p className="text-sm text-gray-500 mb-4">Stop playing "Phone Tag"</p>
                 <div className="text-5xl font-bold text-slate-dark mb-2">$99<span className="text-lg text-gray-500 font-normal">/month</span></div>
-                <p className="text-sm text-green-600 font-semibold">🎉 <span className="line-through text-gray-400">$299</span> Setup Fee WAIVED</p>
+                <p className="text-sm text-green-600 font-semibold">🎉 <span className="line-through text-gray-400">$199</span> Setup Fee WAIVED</p>
               </div>
               <ul className="space-y-4 mb-10">
                 <li className="flex items-start gap-3">
@@ -559,7 +907,26 @@ export default function Home() {
                   </div>
                   <span className="text-gray-700">📍 Google Maps "Book" Button</span>
                 </li>
+                <li className="flex items-start gap-3">
+                  <div className="bg-green-100 rounded-full p-1 mt-0.5">
+                    <Check className="h-4 w-4 text-green-600" />
+                  </div>
+                  <span className="text-gray-700">💳 Stripe Payments (Direct to You)</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <div className="bg-green-100 rounded-full p-1 mt-0.5">
+                    <Check className="h-4 w-4 text-green-600" />
+                  </div>
+                  <span className="text-gray-700">📸 Client History & Before/After Photos</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <div className="bg-green-100 rounded-full p-1 mt-0.5">
+                    <Check className="h-4 w-4 text-green-600" />
+                  </div>
+                  <span className="text-gray-700">👥 Up to 5 Team Members</span>
+                </li>
               </ul>
+              <p className="text-[10px] text-gray-400 text-center -mt-6 mb-4">💡 Payments go directly to your Stripe — we never hold your money.</p>
               <button className="w-full bg-gradient-to-r from-primary to-secondary text-white py-4 rounded-2xl font-semibold hover:shadow-xl transition-all text-lg">
                 Start This Week
               </button>
@@ -567,17 +934,29 @@ export default function Home() {
             </div>
 
             {/* Viral VIP Plan */}
-            <div className="bg-white rounded-3xl p-8 card-shadow hover:card-shadow-hover transition-all duration-500 hover:-translate-y-2 border border-gray-100">
-              <div className="text-center mb-8">
+            <div className="bg-white rounded-3xl p-8 card-shadow hover:card-shadow-hover transition-all duration-500 hover:-translate-y-2 border-2 border-gold relative overflow-hidden">
+              {/* VIP Badge */}
+              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                <span className="bg-gradient-to-r from-gold to-yellow-400 text-white px-6 py-2 rounded-full text-sm font-semibold shadow-lg">VIP</span>
+              </div>
+              <div className="text-center mb-6">
                 <div className="bg-gradient-to-br from-gold to-yellow-400 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6">
                   <Star className="h-8 w-8 text-white" />
                 </div>
                 <h3 className="text-2xl font-bold text-slate-dark mb-2">The Viral VIP</h3>
-                <p className="text-sm text-gray-500 mb-4">Dominate Instagram & Google</p>
+                <p className="text-sm text-gray-500 mb-4">Rank #1 on Google Maps</p>
                 <div className="text-5xl font-bold text-slate-dark mb-2">$249<span className="text-lg text-gray-500 font-normal">/month</span></div>
-                <p className="text-sm text-gray-500">+ $499 one-time setup fee</p>
+                <p className="text-sm text-green-600 font-semibold">🎉 <span className="line-through text-gray-400">$299</span> Setup Fee WAIVED</p>
               </div>
-              <ul className="space-y-4 mb-10">
+              
+              {/* SEO Secret Callout */}
+              <div className="bg-gradient-to-r from-gold/10 to-yellow-100 rounded-xl p-3 mb-5 border border-gold/20">
+                <p className="text-xs text-gray-700">
+                  <span className="font-bold text-gold">🤫 Secret:</span> For salons, SEO = <span className="font-semibold">Google Maps ranking</span>, not blogs.
+                </p>
+              </div>
+
+              <ul className="space-y-3 mb-5">
                 <li className="flex items-start gap-3">
                   <div className="bg-green-100 rounded-full p-1 mt-0.5">
                     <Check className="h-4 w-4 text-green-600" />
@@ -588,13 +967,7 @@ export default function Home() {
                   <div className="bg-green-100 rounded-full p-1 mt-0.5">
                     <Check className="h-4 w-4 text-green-600" />
                   </div>
-                  <span className="text-gray-700">🎥 4 Pro Reels/TikToks per month</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <div className="bg-green-100 rounded-full p-1 mt-0.5">
-                    <Check className="h-4 w-4 text-green-600" />
-                  </div>
-                  <span className="text-gray-700">🚀 Google SEO Boost</span>
+                  <span className="text-gray-700">👥 Unlimited Team Members</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <div className="bg-green-100 rounded-full p-1 mt-0.5">
@@ -603,9 +976,103 @@ export default function Home() {
                   <span className="text-gray-700">👑 Priority WhatsApp Support</span>
                 </li>
               </ul>
-              <button className="w-full bg-gold text-white py-4 rounded-2xl font-semibold hover:bg-yellow-500 transition-colors text-lg">
+
+              {/* Maps Boost Section */}
+              <div className="border-t border-gray-100 pt-4 mb-4">
+                <h4 className="text-xs font-bold text-slate-dark mb-3">📍 The "Maps" Boost <span className="bg-green-100 text-green-600 px-1.5 py-0.5 rounded text-[10px] ml-1">MONTHLY</span></h4>
+                <ul className="space-y-3">
+                  <li className="flex items-start gap-3">
+                    <div className="bg-green-100 rounded-full p-1 mt-0.5">
+                      <Check className="h-4 w-4 text-green-600" />
+                    </div>
+                    <PhotoDumpPreview>
+                      <span className="text-gray-700 border-b border-dashed border-gray-400 cursor-pointer hover:text-gold hover:border-gold transition-colors inline-flex items-center gap-1.5">
+                        📸 4 Photos Uploaded Monthly
+                        <Eye className="h-3.5 w-3.5 text-gray-400" />
+                      </span>
+                    </PhotoDumpPreview>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <div className="bg-green-100 rounded-full p-1 mt-0.5">
+                      <Check className="h-4 w-4 text-green-600" />
+                    </div>
+                    <GoogleUpdatePreview>
+                      <span className="text-gray-700 border-b border-dashed border-gray-400 cursor-pointer hover:text-gold hover:border-gold transition-colors inline-flex items-center gap-1.5">
+                        📍 Monthly "Book Now" Post
+                        <Eye className="h-3.5 w-3.5 text-gray-400" />
+                      </span>
+                    </GoogleUpdatePreview>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Star System Section */}
+              <div className="border-t border-gray-100 pt-4 mb-4">
+                <ul className="space-y-3">
+                  <li className="flex items-start gap-3">
+                    <div className="bg-green-100 rounded-full p-1 mt-0.5">
+                      <Check className="h-4 w-4 text-green-600" />
+                    </div>
+                    <ReputationGuardPreview>
+                      <span className="text-gray-700 border-b border-dashed border-gray-400 cursor-pointer hover:text-gold hover:border-gold transition-colors inline-flex items-center gap-1.5">
+                        ⭐ Smart Reputation Guard
+                        <Eye className="h-3.5 w-3.5 text-gray-400" />
+                      </span>
+                    </ReputationGuardPreview>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Revenue Engine Section */}
+              <div className="border-t border-gray-100 pt-4 mb-4">
+                <h4 className="text-xs font-bold text-slate-dark mb-3">💰 Automated Revenue Engine</h4>
+                <ul className="space-y-3">
+                  <li className="flex items-start gap-3">
+                    <div className="bg-green-100 rounded-full p-1 mt-0.5">
+                      <Check className="h-4 w-4 text-green-600" />
+                    </div>
+                    <BirthdayGiftPreview>
+                      <span className="text-gray-700 border-b border-dashed border-gray-400 cursor-pointer hover:text-gold hover:border-gold transition-colors inline-flex items-center gap-1.5">
+                        🎂 Birthday Gift Emails
+                        <Eye className="h-3.5 w-3.5 text-gray-400" />
+                      </span>
+                    </BirthdayGiftPreview>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <div className="bg-green-100 rounded-full p-1 mt-0.5">
+                      <Check className="h-4 w-4 text-green-600" />
+                    </div>
+                    <FlashSalePreview>
+                      <span className="text-gray-700 border-b border-dashed border-gray-400 cursor-pointer hover:text-gold hover:border-gold transition-colors inline-flex items-center gap-1.5">
+                        ⚡ Flash Sale Broadcasts
+                        <Eye className="h-3.5 w-3.5 text-gray-400" />
+                      </span>
+                    </FlashSalePreview>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Win-Back Bot Section */}
+              <div className="border-t border-gray-100 pt-4 mb-6">
+                <ul className="space-y-3">
+                  <li className="flex items-start gap-3">
+                    <div className="bg-green-100 rounded-full p-1 mt-0.5">
+                      <Check className="h-4 w-4 text-green-600" />
+                    </div>
+                    <WinBackPreview>
+                      <span className="text-gray-700 border-b border-dashed border-gray-400 cursor-pointer hover:text-gold hover:border-gold transition-colors inline-flex items-center gap-1.5">
+                        🧟‍♀️ The "Win-Back" Bot
+                        <Eye className="h-3.5 w-3.5 text-gray-400" />
+                      </span>
+                    </WinBackPreview>
+                  </li>
+                </ul>
+              </div>
+
+              <button className="w-full bg-gradient-to-r from-gold to-yellow-400 text-white py-4 rounded-2xl font-semibold hover:shadow-xl hover:shadow-gold/25 transition-all text-lg">
                 Go VIP
               </button>
+              <p className="text-center text-xs text-gray-500 mt-3">The complete Google Maps domination package</p>
             </div>
           </div>
         </div>
@@ -992,4 +1459,4 @@ export default function Home() {
       </footer>
     </div>
   )
-} 
+}
