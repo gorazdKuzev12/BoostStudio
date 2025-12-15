@@ -1,6 +1,73 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { ChevronLeft, ChevronRight, Star, Play, Check, Sparkles, Video, Globe, BarChart3, Monitor, Instagram, Facebook, Linkedin, MessageCircle, Users, TrendingUp, Camera, Palette, Target, Eye } from 'lucide-react'
 import Link from 'next/link'
+
+// Custom hook for scroll reveal animations
+const useScrollReveal = (options = {}) => {
+  const ref = useRef(null)
+  const [isRevealed, setIsRevealed] = useState(false)
+
+  useEffect(() => {
+    const element = ref.current
+    if (!element) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsRevealed(true)
+          observer.unobserve(element) // Only animate once
+        }
+      },
+      {
+        threshold: options.threshold || 0.1,
+        rootMargin: options.rootMargin || '0px 0px -50px 0px',
+      }
+    )
+
+    observer.observe(element)
+
+    return () => {
+      if (element) observer.unobserve(element)
+    }
+  }, [options.threshold, options.rootMargin])
+
+  return [ref, isRevealed]
+}
+
+// Reusable ScrollReveal component
+const ScrollReveal = ({ 
+  children, 
+  className = '', 
+  variant = 'default', 
+  delay = 0,
+  threshold = 0.1 
+}) => {
+  const [ref, isRevealed] = useScrollReveal({ threshold })
+  
+  const variantClass = {
+    default: 'scroll-reveal',
+    left: 'scroll-reveal-left',
+    right: 'scroll-reveal-right', 
+    scale: 'scroll-reveal-scale',
+    blur: 'scroll-reveal-blur',
+    card: 'scroll-reveal-card',
+    hero: 'scroll-reveal-hero',
+    bounce: 'scroll-reveal-bounce',
+    stagger: 'scroll-reveal-stagger'
+  }[variant]
+
+  const delayClass = delay > 0 ? `scroll-reveal-delay-${delay}` : ''
+
+  return (
+    <div 
+      ref={ref} 
+      className={`${variantClass} ${delayClass} ${isRevealed ? 'revealed' : ''} ${className}`}
+      style={delay > 6 ? { transitionDelay: `${delay * 0.1}s` } : {}}
+    >
+      {children}
+    </div>
+  )
+}
 
 // Hover Preview Component for Logo Design
 const LogoPreview = ({ children }) => (
@@ -424,138 +491,192 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-light font-poppins">
+    <div className="min-h-screen bg-slate-light font-jakarta overflow-x-hidden">
       {/* Navigation */}
-      <nav className="bg-white/90 backdrop-blur-xl fixed w-full top-0 z-50 border-b border-gray-100 shadow-sm">
+      <nav className="glass-effect fixed w-full top-0 z-50 border-b border-white/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
-            <div className="flex items-center space-x-3">
-              <div className="bg-gradient-to-br from-primary to-secondary p-2 rounded-xl">
-                <Sparkles className="h-6 w-6 text-white" />
+            <div className="flex items-center space-x-3 group cursor-pointer">
+              <div className="bg-gradient-to-br from-primary to-secondary p-2.5 rounded-xl shadow-glow group-hover:shadow-glow-lg transition-all duration-500 group-hover:scale-110">
+                <Sparkles className="h-6 w-6 text-white animate-pulse-soft" />
               </div>
-              <span className="text-2xl font-bold text-slate-dark">GlowBoost<span className="gradient-text">Studio</span></span>
+              <span className="text-2xl font-bold text-slate-dark">GlowBoost<span className="gradient-text-animated">Studio</span></span>
             </div>
             <div className="hidden md:flex space-x-8">
-              <a href="#services" className="text-slate-dark hover:text-primary transition-colors font-medium">Services</a>
-              <a href="#pricing" className="text-slate-dark hover:text-primary transition-colors font-medium">Pricing</a>
-              <a href="#portfolio" className="text-slate-dark hover:text-primary transition-colors font-medium">Portfolio</a>
-              <a href="#testimonials" className="text-slate-dark hover:text-primary transition-colors font-medium">Reviews</a>
-              <Link href="/login" className="text-slate-dark hover:text-primary transition-colors font-medium">Login</Link>
+              <a href="#services" className="text-slate-dark/80 hover:text-primary transition-all duration-300 font-medium animated-underline">Services</a>
+              <a href="#pricing" className="text-slate-dark/80 hover:text-primary transition-all duration-300 font-medium animated-underline">Pricing</a>
+              <a href="#portfolio" className="text-slate-dark/80 hover:text-primary transition-all duration-300 font-medium animated-underline">Portfolio</a>
+              <a href="#testimonials" className="text-slate-dark/80 hover:text-primary transition-all duration-300 font-medium animated-underline">Reviews</a>
+              <Link href="/login" className="text-slate-dark/80 hover:text-primary transition-all duration-300 font-medium animated-underline">Login</Link>
             </div>
-            <Link href="/create-landing-page" className="bg-gradient-to-r from-primary to-secondary text-white px-8 py-3 rounded-xl hover:shadow-lg hover:scale-105 transition-all duration-300 font-semibold">
-              Get Started
+            <Link href="/create-landing-page" className="relative bg-gradient-to-r from-primary via-secondary to-accent text-white px-8 py-3 rounded-xl font-semibold overflow-hidden group btn-glow">
+              <span className="relative z-10">Get Started</span>
+              <div className="absolute inset-0 bg-gradient-to-r from-primary-dark via-secondary-dark to-accent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </Link>
           </div>
         </div>
       </nav>
 
       {/* Hero Section - Premium Split Screen */}
-      <section className="pt-24 lg:pt-32 pb-16 lg:pb-24 min-h-screen relative overflow-hidden bg-gradient-to-br from-purple-50 via-pink-50 to-white">
-        {/* Background Elements */}
-        <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-bl from-primary/5 to-transparent"></div>
-        <div className="absolute top-20 left-10 w-72 h-72 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 right-20 w-96 h-96 bg-gradient-to-br from-secondary/10 to-purple-200/30 rounded-full blur-3xl"></div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-radial from-pink-100/50 to-transparent rounded-full blur-3xl"></div>
+      <section className="pt-24 lg:pt-32 pb-16 lg:pb-24 min-h-screen relative overflow-hidden bg-gradient-to-br from-purple-50/80 via-pink-50/60 to-white grain-overlay">
+        {/* Animated Background Elements */}
+        <div className="absolute inset-0 aurora-bg"></div>
+        <div className="absolute inset-0 grid-pattern opacity-50"></div>
+        
+        {/* Floating Gradient Orbs */}
+        <div className="gradient-orb w-[500px] h-[500px] bg-gradient-to-br from-primary/25 to-secondary/15 top-10 -left-20" style={{ animationDelay: '0s' }}></div>
+        <div className="gradient-orb w-[400px] h-[400px] bg-gradient-to-br from-secondary/20 to-purple-400/15 bottom-20 right-0" style={{ animationDelay: '2s' }}></div>
+        <div className="gradient-orb w-[300px] h-[300px] bg-gradient-to-br from-pink-300/20 to-primary/10 top-1/2 left-1/4" style={{ animationDelay: '4s' }}></div>
+        
+        {/* Decorative Shapes */}
+        <div className="floating-shapes">
+          <div className="shape shape-1"></div>
+          <div className="shape shape-2"></div>
+          <div className="shape shape-3"></div>
+        </div>
+        
+        {/* Light rays effect */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-gradient-conic from-primary/5 via-transparent to-secondary/5 blur-3xl opacity-60"></div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             
             {/* Left Side - Content */}
-            <div className="order-2 lg:order-1 animate-fade-in-up mt-6 lg:mt-0">
+            <div className="order-2 lg:order-1 animate-fade-in-up mt-6 lg:mt-0 relative z-10">
+              
+              {/* Badge */}
+              <div className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm border border-primary/20 rounded-full px-4 py-2 mb-6 shadow-lg shadow-primary/5 animate-bounce-gentle">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                </span>
+                <span className="text-sm font-medium text-slate-dark">Now accepting new clients</span>
+              </div>
             
               {/* Headline */}
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-dark mb-6 leading-tight">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-dark mb-6 leading-[1.1] tracking-tight">
                 Your Personal Digital Agency
               <br />
-                <span className="bg-gradient-to-r from-primary via-purple-500 to-secondary bg-clip-text text-transparent">
+                <span className="gradient-text-animated inline-block mt-2">
                   for the cost of just one appointment.
                 </span>
             </h1>
             
               {/* Subhead */}
-              <p className="text-base md:text-lg text-gray-600 mb-6 leading-relaxed max-w-lg">
+              <p className="text-base md:text-lg text-gray-600 mb-8 leading-relaxed max-w-lg">
                 We design your professional website, train your AI receptionist, automate your bookings, manage your CRM, and handle all the tech. 
                 <span className="font-semibold text-slate-dark"> Stop juggling tools and freelancers.</span>
               </p>
               
-              {/* Features - Compact with descriptions */}
-              <div className="space-y-3 mb-8">
-                <div className="flex items-start gap-3">
-                  <span className="text-lg mt-0.5">🌐</span>
+              {/* Features - Premium Cards */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
+                <div className="flex items-center gap-3 bg-white/60 backdrop-blur-sm rounded-xl p-3 border border-white/50 hover:border-primary/30 hover:bg-white/80 transition-all duration-300 group cursor-default">
+                  <div className="w-10 h-10 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <span className="text-lg">🌐</span>
+                  </div>
                   <div>
-                    <span className="font-semibold text-slate-dark text-sm">Free Custom Domain</span>
-                    <span className="text-gray-500 text-sm"> — YourSalon.com. You own the brand.</span>
+                    <span className="font-semibold text-slate-dark text-sm block">Free Custom Domain</span>
+                    <span className="text-gray-500 text-xs">YourSalon.com included</span>
                   </div>
                 </div>
-                <div className="flex items-start gap-3">
-                  <span className="text-lg mt-0.5">📅</span>
+                <div className="flex items-center gap-3 bg-white/60 backdrop-blur-sm rounded-xl p-3 border border-white/50 hover:border-primary/30 hover:bg-white/80 transition-all duration-300 group cursor-default">
+                  <div className="w-10 h-10 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <span className="text-lg">📅</span>
+                  </div>
                   <div>
-                    <span className="font-semibold text-slate-dark text-sm">Auto-Booking Calendar</span>
-                    <span className="text-gray-500 text-sm"> — Syncs with your phone. Clients book 24/7.</span>
+                    <span className="font-semibold text-slate-dark text-sm block">24/7 Auto-Booking</span>
+                    <span className="text-gray-500 text-xs">Syncs with your phone</span>
                   </div>
                 </div>
-                <div className="flex items-start gap-3">
-                  <span className="text-lg mt-0.5">💳</span>
+                <div className="flex items-center gap-3 bg-white/60 backdrop-blur-sm rounded-xl p-3 border border-white/50 hover:border-primary/30 hover:bg-white/80 transition-all duration-300 group cursor-default">
+                  <div className="w-10 h-10 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <span className="text-lg">🧠</span>
+                  </div>
                   <div>
-                    <span className="font-semibold text-slate-dark text-sm">Your Money, Your Control</span>
-                    <span className="text-gray-500 text-sm"> — Stripe pays YOU directly. We never touch it.</span>
+                    <span className="font-semibold text-slate-dark text-sm block">AI Receptionist</span>
+                    <span className="text-gray-500 text-xs">Never miss a client</span>
                   </div>
                 </div>
-              
-                <div className="flex items-start gap-3">
-                  <span className="text-lg mt-0.5">✨</span>
+                <div className="flex items-center gap-3 bg-white/60 backdrop-blur-sm rounded-xl p-3 border border-white/50 hover:border-primary/30 hover:bg-white/80 transition-all duration-300 group cursor-default">
+                  <div className="w-10 h-10 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <span className="text-lg">💳</span>
+                  </div>
                   <div>
-                    <span className="font-semibold text-slate-dark text-sm">Stunning Website</span>
-                    <span className="text-gray-500 text-sm"> — Pixel-perfect, crafted by our team.</span>
+                    <span className="font-semibold text-slate-dark text-sm block">Direct Payments</span>
+                    <span className="text-gray-500 text-xs">Stripe pays YOU directly</span>
                   </div>
                 </div>
-                <div className="flex items-start gap-3">
-                  <span className="text-lg mt-0.5">🧠</span>
-                  <div>
-                    <span className="font-semibold text-slate-dark text-sm">AI Receptionist</span>
-                    <span className="text-gray-500 text-sm"> — Answers questions & books while you sleep.</span>
-                  </div>
-                </div>
-              
               </div>
               
               {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row gap-3">
-                <Link href="/create-landing-page" className="bg-gradient-to-r from-primary to-secondary text-white px-6 py-3 rounded-xl text-base font-semibold hover:shadow-xl hover:shadow-primary/25 transition-all duration-300 transform hover:scale-105 text-center">
-                  Get Started Now
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Link href="/create-landing-page" className="relative group bg-gradient-to-r from-primary via-secondary to-accent text-white px-8 py-4 rounded-2xl text-base font-semibold text-center overflow-hidden btn-glow">
+                  <span className="relative z-10 flex items-center justify-center gap-2">
+                    Get Started Now
+                    <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+                  </span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-primary-dark via-secondary-dark to-accent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </Link>
-                <button className="group border-2 border-gray-200 bg-white/80 backdrop-blur-sm text-slate-dark px-6 py-3 rounded-xl text-base font-semibold hover:border-primary hover:bg-white transition-all duration-300 flex items-center justify-center gap-2">
-                  <div className="w-8 h-8 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <Play className="h-3 w-3 text-white ml-0.5" />
+                <button className="group glass-effect text-slate-dark px-8 py-4 rounded-2xl text-base font-semibold hover:bg-white/90 transition-all duration-300 flex items-center justify-center gap-3">
+                  <div className="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center group-hover:scale-110 group-hover:shadow-glow transition-all duration-300">
+                    <Play className="h-4 w-4 text-white ml-0.5" />
                   </div>
                   Watch Demo
                 </button>
               </div>
+              
+              {/* Social Proof */}
+              <div className="flex items-center gap-4 mt-8 pt-8 border-t border-gray-200/50">
+                <div className="flex -space-x-3">
+                  {['🧑‍💼', '👩‍💼', '👨‍💼', '👩‍🦰'].map((emoji, i) => (
+                    <div key={i} className="w-10 h-10 rounded-full bg-gradient-to-br from-gray-100 to-gray-200 border-2 border-white flex items-center justify-center text-lg shadow-md">
+                      {emoji}
+                    </div>
+                  ))}
+                </div>
+                <div>
+                  <div className="flex items-center gap-1">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="h-4 w-4 text-yellow-400 fill-yellow-400" />
+                    ))}
+                  </div>
+                  <p className="text-sm text-gray-600"><span className="font-semibold text-slate-dark">50+</span> beauty pros trust us</p>
+                </div>
+              </div>
             </div>
             
             {/* Right Side - Laptop Mockup with Video */}
-            <div className="order-1 lg:order-2 flex justify-center lg:justify-end lg:-mt-12">
+            <div className="order-1 lg:order-2 flex justify-center lg:justify-end lg:-mt-12 relative z-10">
               <div className="relative w-full max-w-xl lg:max-w-2xl">
+                {/* Glow behind laptop */}
+                <div className="absolute inset-0 bg-gradient-to-r from-primary/30 via-secondary/20 to-accent/30 blur-3xl scale-110 animate-pulse-soft"></div>
+                
                 {/* Laptop Frame */}
-                <div className="relative">
+                <div className="relative group">
                   {/* Screen Bezel */}
-                  <div className="bg-gray-800 rounded-t-2xl p-3 pb-0">
+                  <div className="bg-gradient-to-b from-gray-800 to-gray-900 rounded-t-3xl p-3 pb-0 shadow-2xl">
+                    {/* Notch */}
+                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-5 bg-gray-800 rounded-b-xl flex items-center justify-center">
+                      <div className="w-2 h-2 rounded-full bg-gray-600"></div>
+                    </div>
+                    
                     {/* Browser Chrome */}
-                    <div className="bg-gray-700 rounded-t-lg px-4 py-2 flex items-center gap-2">
+                    <div className="bg-gray-800/80 rounded-t-xl px-4 py-2.5 flex items-center gap-2 border-b border-gray-700/50">
                       <div className="flex gap-1.5">
-                        <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                        <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                        <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                        <div className="w-3 h-3 rounded-full bg-red-500 hover:bg-red-400 transition-colors cursor-pointer"></div>
+                        <div className="w-3 h-3 rounded-full bg-yellow-500 hover:bg-yellow-400 transition-colors cursor-pointer"></div>
+                        <div className="w-3 h-3 rounded-full bg-green-500 hover:bg-green-400 transition-colors cursor-pointer"></div>
                       </div>
                       <div className="flex-1 mx-4">
-                        <div className="bg-gray-600 rounded-md px-3 py-1 text-xs text-gray-300 truncate">
+                        <div className="bg-gray-700/80 rounded-lg px-4 py-1.5 text-xs text-gray-300 truncate flex items-center gap-2 border border-gray-600/30">
+                          <svg className="w-3 h-3 text-green-400" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" /></svg>
                           glowbooststudio.com
                         </div>
                       </div>
                     </div>
                     
                     {/* Video Container */}
-                    <div className="bg-white rounded-b-lg overflow-hidden aspect-video">
+                    <div className="bg-white rounded-b-lg overflow-hidden aspect-video relative">
                       <video
                         autoPlay
                         loop
@@ -566,38 +687,56 @@ export default function Home() {
                         <source src="/video.mp4" type="video/mp4" />
                         Your browser does not support the video tag.
                       </video>
+                      {/* Reflection overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-transparent pointer-events-none"></div>
                     </div>
                   </div>
                   
                   {/* Laptop Base */}
-                  <div className="bg-gray-800 h-4 rounded-b-lg"></div>
-                  <div className="bg-gray-700 h-2 mx-16 rounded-b-xl"></div>
+                  <div className="bg-gradient-to-b from-gray-800 to-gray-900 h-5 rounded-b-lg"></div>
+                  <div className="bg-gradient-to-b from-gray-700 to-gray-800 h-2 mx-16 rounded-b-2xl shadow-inner"></div>
+                  
+                  {/* Keyboard hint */}
+                  <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-12 h-1 bg-gray-600 rounded-full"></div>
                   
                   {/* Shadow */}
-                  <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 w-3/4 h-8 bg-black/20 blur-xl rounded-full"></div>
+                  <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-4/5 h-10 bg-black/25 blur-2xl rounded-full"></div>
                 </div>
                 
-                {/* Floating Elements */}
-                <div className="absolute -top-4 -right-4 bg-white rounded-2xl shadow-xl p-4 animate-bounce-slow">
-                  <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-                      <Check className="h-4 w-4 text-green-600" />
+                {/* Floating Elements - Enhanced */}
+                <div className="absolute -top-6 -right-6 glass-effect rounded-2xl p-4 animate-float shadow-card-hover border border-white/30">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-gradient-to-br from-green-400 to-emerald-500 rounded-xl flex items-center justify-center shadow-lg shadow-green-500/30">
+                      <Check className="h-5 w-5 text-white" />
                     </div>
                     <div>
-                      <p className="text-xs text-gray-500">New Booking</p>
-                      <p className="text-sm font-semibold text-slate-dark">Sarah M.</p>
+                      <p className="text-xs text-gray-500 font-medium">New Booking</p>
+                      <p className="text-sm font-bold text-slate-dark">Sarah M.</p>
                     </div>
                   </div>
                 </div>
                 
-                <div className="absolute -bottom-2 -left-4 bg-white rounded-2xl shadow-xl p-4 animate-bounce-slow" style={{ animationDelay: '1s' }}>
-                  <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
-                      <MessageCircle className="h-4 w-4 text-purple-600" />
+                <div className="absolute -bottom-4 -left-6 glass-effect rounded-2xl p-4 animate-float-delayed shadow-card-hover border border-white/30">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-secondary rounded-xl flex items-center justify-center shadow-lg shadow-purple-500/30">
+                      <MessageCircle className="h-5 w-5 text-white" />
                     </div>
                     <div>
-                      <p className="text-xs text-gray-500">AI Replied</p>
-                      <p className="text-sm font-semibold text-slate-dark">"Price sent!"</p>
+                      <p className="text-xs text-gray-500 font-medium">AI Replied</p>
+                      <p className="text-sm font-bold text-slate-dark">"Price sent!"</p>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* New floating element - Stats */}
+                <div className="absolute top-1/2 -right-12 glass-effect rounded-2xl p-3 animate-float-slow shadow-card-hover border border-white/30 hidden lg:block" style={{ animationDelay: '3s' }}>
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 bg-gradient-to-br from-primary to-pink-500 rounded-lg flex items-center justify-center">
+                      <TrendingUp className="h-4 w-4 text-white" />
+                    </div>
+                    <div>
+                      <p className="text-xs font-bold text-primary">+127%</p>
+                      <p className="text-[10px] text-gray-500">Bookings</p>
                     </div>
                   </div>
                 </div>
@@ -609,30 +748,46 @@ export default function Home() {
       </section>
 
       {/* Enhanced Services Section */}
-      <section id="services" className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-20">
-            <div className="inline-block bg-gradient-to-r from-primary/10 to-secondary/10 rounded-full px-6 py-2 mb-6">
-              <span className="text-primary font-semibold">What We Build For You</span>
+      <section id="services" className="py-24 bg-white relative overflow-hidden">
+        {/* Background decoration */}
+        <div className="absolute top-0 left-0 w-full h-full dot-pattern opacity-30"></div>
+        <div className="absolute top-20 right-0 w-96 h-96 bg-gradient-to-br from-primary/5 to-secondary/5 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-20 left-0 w-80 h-80 bg-gradient-to-br from-secondary/5 to-accent/5 rounded-full blur-3xl"></div>
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <ScrollReveal variant="blur" className="text-center mb-20">
+            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-primary/10 via-secondary/10 to-accent/10 rounded-full px-6 py-2.5 mb-6 border border-primary/10">
+              <Sparkles className="w-4 h-4 text-primary" />
+              <span className="text-primary font-semibold text-sm tracking-wide">What We Build For You</span>
             </div>
-            <h2 className="text-4xl md:text-5xl font-bold text-slate-dark mb-6">Beauty Tech That Works While You Sleep</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-dark mb-6 tracking-tight">
+              Beauty Tech That Works <br className="hidden sm:block" />
+              <span className="gradient-text">While You Sleep</span>
+            </h2>
+            <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
               Automation, aesthetics, and results—everything a modern salon owner needs to scale.
             </p>
-          </div>
+          </ScrollReveal>
 
           {/* Service Categories */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 mb-16">
             {/* Digital Storefront Design */}
-            <div className="group">
-              <div className="bg-gradient-to-br from-gray-50 to-white rounded-3xl p-10 card-shadow group-hover:card-shadow-hover transition-all duration-500 border border-gray-100">
+            <ScrollReveal variant="card" delay={1}>
+            <div className="group h-full">
+              <div className="relative bg-white rounded-3xl p-8 lg:p-10 card-glow transition-all duration-500 border border-gray-100/80 h-full overflow-hidden">
+                {/* Gradient accent */}
+                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-secondary to-accent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                
                 <div className="flex items-center mb-8">
-                  <div className="bg-gradient-to-br from-primary/10 to-primary/5 w-16 h-16 rounded-2xl flex items-center justify-center mr-6">
-                    <Palette className="h-8 w-8 text-primary" />
+                  <div className="relative">
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary to-secondary rounded-2xl blur-lg opacity-30 group-hover:opacity-50 transition-opacity"></div>
+                    <div className="relative bg-gradient-to-br from-primary/10 to-primary/5 w-16 h-16 rounded-2xl flex items-center justify-center mr-6 border border-primary/10 group-hover:scale-110 transition-transform duration-500">
+                      <Palette className="h-8 w-8 text-primary" />
+                    </div>
                   </div>
                   <div>
-                    <h3 className="text-2xl font-bold text-slate-dark mb-2">Digital Storefront Design</h3>
-                    <p className="text-gray-600">Aesthetic | Branding | Mobile-First</p>
+                    <h3 className="text-xl lg:text-2xl font-bold text-slate-dark mb-1">Digital Storefront Design</h3>
+                    <p className="text-gray-500 text-sm">Aesthetic • Branding • Mobile-First</p>
                   </div>
                 </div>
                 <p className="text-gray-600 leading-relaxed mb-6">
@@ -654,10 +809,12 @@ export default function Home() {
                 </ul>
               </div>
             </div>
+            </ScrollReveal>
 
             {/* 24/7 Booking Automation */}
-            <div className="group">
-              <div className="bg-gradient-to-br from-gray-50 to-white rounded-3xl p-10 card-shadow group-hover:card-shadow-hover transition-all duration-500 border border-gray-100">
+            <ScrollReveal variant="card" delay={2}>
+            <div className="group h-full">
+              <div className="bg-gradient-to-br from-gray-50 to-white rounded-3xl p-10 card-shadow group-hover:card-shadow-hover transition-all duration-500 border border-gray-100 h-full">
                 <div className="flex items-center mb-8">
                   <div className="bg-gradient-to-br from-secondary/10 to-secondary/5 w-16 h-16 rounded-2xl flex items-center justify-center mr-6">
                     <Globe className="h-8 w-8 text-secondary" />
@@ -686,10 +843,12 @@ export default function Home() {
                 </ul>
               </div>
             </div>
+            </ScrollReveal>
 
             {/* The AI Receptionist */}
-            <div className="group">
-              <div className="bg-gradient-to-br from-gray-50 to-white rounded-3xl p-10 card-shadow group-hover:card-shadow-hover transition-all duration-500 border border-gray-100">
+            <ScrollReveal variant="card" delay={3}>
+            <div className="group h-full">
+              <div className="bg-gradient-to-br from-gray-50 to-white rounded-3xl p-10 card-shadow group-hover:card-shadow-hover transition-all duration-500 border border-gray-100 h-full">
                 <div className="flex items-center mb-8">
                   <div className="bg-gradient-to-br from-primary/10 to-primary/5 w-16 h-16 rounded-2xl flex items-center justify-center mr-6">
                     <MessageCircle className="h-8 w-8 text-primary" />
@@ -718,10 +877,12 @@ export default function Home() {
                 </ul>
               </div>
             </div>
+            </ScrollReveal>
 
             {/* Viral Content & Growth */}
-            <div className="group">
-              <div className="bg-gradient-to-br from-gray-50 to-white rounded-3xl p-10 card-shadow group-hover:card-shadow-hover transition-all duration-500 border border-gray-100">
+            <ScrollReveal variant="card" delay={4}>
+            <div className="group h-full">
+              <div className="bg-gradient-to-br from-gray-50 to-white rounded-3xl p-10 card-shadow group-hover:card-shadow-hover transition-all duration-500 border border-gray-100 h-full">
                 <div className="flex items-center mb-8">
                   <div className="bg-gradient-to-br from-secondary/10 to-secondary/5 w-16 h-16 rounded-2xl flex items-center justify-center mr-6">
                     <Video className="h-8 w-8 text-secondary" />
@@ -750,53 +911,78 @@ export default function Home() {
                 </ul>
               </div>
             </div>
+            </ScrollReveal>
           </div>
 
           {/* Quick Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 pt-16 border-t border-gray-100">
-            <div className="text-center">
-              <div className="text-3xl font-bold text-primary mb-2">48h</div>
-              <div className="text-gray-600">Average Setup Time</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-secondary mb-2">15+</div>
-              <div className="text-gray-600">Salons Automated</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-primary mb-2">24/7</div>
-              <div className="text-gray-600">AI Availability</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-secondary mb-2">0</div>
-              <div className="text-gray-600">Phone Tag Required</div>
-            </div>
+            <ScrollReveal variant="bounce" delay={1}>
+              <div className="text-center">
+                <div className="text-3xl font-bold text-primary mb-2">48h</div>
+                <div className="text-gray-600">Average Setup Time</div>
+              </div>
+            </ScrollReveal>
+            <ScrollReveal variant="bounce" delay={2}>
+              <div className="text-center">
+                <div className="text-3xl font-bold text-secondary mb-2">15+</div>
+                <div className="text-gray-600">Salons Automated</div>
+              </div>
+            </ScrollReveal>
+            <ScrollReveal variant="bounce" delay={3}>
+              <div className="text-center">
+                <div className="text-3xl font-bold text-primary mb-2">24/7</div>
+                <div className="text-gray-600">AI Availability</div>
+              </div>
+            </ScrollReveal>
+            <ScrollReveal variant="bounce" delay={4}>
+              <div className="text-center">
+                <div className="text-3xl font-bold text-secondary mb-2">0</div>
+                <div className="text-gray-600">Phone Tag Required</div>
+              </div>
+            </ScrollReveal>
           </div>
         </div>
       </section>
 
       {/* Pricing Section */}
-      <section id="pricing" className="py-24 bg-gradient-to-br from-gray-50 to-blue-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-20">
-            <div className="inline-block bg-white rounded-full px-6 py-2 mb-6 shadow-sm">
-              <span className="text-primary font-semibold">Pricing Plans</span>
+      <section id="pricing" className="py-24 bg-gradient-to-br from-slate-50 via-purple-50/30 to-pink-50/20 relative overflow-hidden">
+        {/* Background elements */}
+        <div className="absolute inset-0 grid-pattern opacity-30"></div>
+        <div className="absolute top-0 right-1/4 w-[600px] h-[600px] bg-gradient-to-br from-primary/10 via-secondary/5 to-transparent rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 left-1/4 w-[500px] h-[500px] bg-gradient-to-tr from-secondary/10 via-accent/5 to-transparent rounded-full blur-3xl"></div>
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <ScrollReveal variant="blur" className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 glass-effect rounded-full px-6 py-2.5 mb-6 border border-white/50 shadow-lg">
+              <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
+              <span className="text-primary font-semibold text-sm tracking-wide">Pricing Plans</span>
             </div>
-            <h2 className="text-4xl md:text-5xl font-bold text-slate-dark mb-6">Simple, Transparent Pricing</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-dark mb-6 tracking-tight">
+              Simple, <span className="gradient-text">Transparent</span> Pricing
+            </h2>
+            <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
               Choose the perfect plan to grow your beauty business
             </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          </ScrollReveal>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto items-stretch">
             {/* Essential Plan */}
-            <div className="bg-white rounded-3xl p-8 card-shadow hover:card-shadow-hover transition-all duration-500 hover:-translate-y-2 border border-gray-100">
-              <div className="text-center mb-8">
-                <div className="bg-gray-100 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                  <Monitor className="h-8 w-8 text-slate-dark" />
+            <ScrollReveal variant="scale" delay={1}>
+            <div className="relative bg-white rounded-3xl p-8 shadow-lg border border-gray-100/80 h-full overflow-hidden">
+              
+              <div className="text-center mb-8 relative z-10">
+                <div className="relative mx-auto w-fit mb-6">
+                  <div className="absolute inset-0 bg-gradient-to-br from-gray-400 to-gray-600 rounded-2xl blur-lg opacity-20"></div>
+                  <div className="relative bg-gradient-to-br from-gray-100 to-gray-200 w-16 h-16 rounded-2xl flex items-center justify-center">
+                    <Monitor className="h-8 w-8 text-slate-dark" />
+                  </div>
                 </div>
                 <h3 className="text-2xl font-bold text-slate-dark mb-2">The Essential</h3>
                 <p className="text-sm text-gray-500 mb-4">Best for new solo artists</p>
-                <div className="text-5xl font-bold text-slate-dark mb-2">$49<span className="text-lg text-gray-500 font-normal">/month</span></div>
-                <p className="text-sm text-gray-500">+ $199 one-time setup fee</p>
+                <div className="flex items-baseline justify-center gap-1">
+                  <span className="text-5xl font-bold text-slate-dark">$49</span>
+                  <span className="text-lg text-gray-500 font-normal">/month</span>
+                </div>
+                <p className="text-sm text-gray-500 mt-2">+ $199 one-time setup fee</p>
               </div>
               <ul className="space-y-4 mb-10">
                 <li className="flex items-start gap-3">
@@ -857,26 +1043,46 @@ export default function Home() {
                   </BusinessCardPreview>
                 </li>
               </ul>
-              <button className="w-full bg-gray-800 text-white py-4 rounded-2xl font-semibold hover:bg-gray-900 transition-colors text-lg">
+              <button className="w-full bg-gray-800 text-white py-4 rounded-2xl font-semibold text-lg">
                 Get Started
               </button>
             </div>
+            </ScrollReveal>
 
             {/* Auto-Booker Plan */}
-            <div className="bg-white rounded-3xl p-8 card-shadow hover:card-shadow-hover transition-all duration-500 hover:-translate-y-2 border-2 border-primary relative scale-105">
-              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                <span className="bg-gradient-to-r from-primary to-secondary text-white px-6 py-2 rounded-full text-sm font-semibold shadow-lg">RECOMMENDED</span>
+            <ScrollReveal variant="scale" delay={2}>
+            <div className="relative bg-white rounded-3xl p-8 pt-12 h-full overflow-visible shadow-xl shadow-primary/10">
+              {/* Gradient border */}
+              <div className="absolute inset-0 bg-gradient-to-r from-primary via-secondary to-accent rounded-3xl p-[2px]">
+                <div className="absolute inset-[2px] bg-white rounded-[22px]"></div>
               </div>
-              <div className="text-center mb-8">
-                <div className="bg-gradient-to-br from-primary to-secondary w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                  <BarChart3 className="h-8 w-8 text-white" />
+              
+              <div className="absolute -top-5 left-1/2 transform -translate-x-1/2 z-20">
+                <span className="bg-gradient-to-r from-primary via-secondary to-accent text-white px-6 py-2.5 rounded-full text-sm font-bold shadow-lg shadow-primary/30 flex items-center gap-2">
+                  <Sparkles className="w-4 h-4" />
+                  RECOMMENDED
+                </span>
+              </div>
+              <div className="text-center mb-8 relative z-10">
+                <div className="relative mx-auto w-fit mb-6">
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary to-secondary rounded-2xl blur-xl opacity-50 animate-pulse-soft"></div>
+                  <div className="relative bg-gradient-to-br from-primary via-secondary to-accent w-16 h-16 rounded-2xl flex items-center justify-center shadow-lg">
+                    <BarChart3 className="h-8 w-8 text-white" />
+                  </div>
                 </div>
                 <h3 className="text-2xl font-bold text-slate-dark mb-2">The Auto-Booker</h3>
                 <p className="text-sm text-gray-500 mb-4">Stop playing "Phone Tag"</p>
-                <div className="text-5xl font-bold text-slate-dark mb-2">$99<span className="text-lg text-gray-500 font-normal">/month</span></div>
-                <p className="text-sm text-green-600 font-semibold">🎉 <span className="line-through text-gray-400">$199</span> Setup Fee WAIVED</p>
+                <div className="flex items-baseline justify-center gap-1">
+                  <span className="text-5xl font-bold gradient-text">$99</span>
+                  <span className="text-lg text-gray-500 font-normal">/month</span>
+                </div>
+                <div className="mt-2 inline-flex items-center gap-2 bg-green-50 text-green-600 px-3 py-1 rounded-full text-sm font-semibold">
+                  <span>🎉</span>
+                  <span className="line-through text-gray-400 text-xs">$199</span>
+                  <span>Setup Fee WAIVED</span>
+                </div>
               </div>
-              <ul className="space-y-4 mb-10">
+              <ul className="space-y-4 mb-10 relative z-10">
                 <li className="flex items-start gap-3">
                   <div className="bg-green-100 rounded-full p-1 mt-0.5">
                     <Check className="h-4 w-4 text-green-600" />
@@ -926,27 +1132,43 @@ export default function Home() {
                   <span className="text-gray-700">👥 Up to 5 Team Members</span>
                 </li>
               </ul>
-              <p className="text-[10px] text-gray-400 text-center -mt-6 mb-4">💡 Payments go directly to your Stripe — we never hold your money.</p>
-              <button className="w-full bg-gradient-to-r from-primary to-secondary text-white py-4 rounded-2xl font-semibold hover:shadow-xl transition-all text-lg">
+              <p className="text-[10px] text-gray-400 text-center -mt-6 mb-4 relative z-10">💡 Payments go directly to your Stripe — we never hold your money.</p>
+              <button className="relative z-10 w-full bg-gradient-to-r from-primary to-secondary text-white py-4 rounded-2xl font-semibold text-lg">
                 Start This Week
               </button>
-              <p className="text-center text-xs text-gray-500 mt-3">Limited time: No setup fee!</p>
+              <p className="text-center text-xs text-gray-500 mt-3 relative z-10">Limited time: No setup fee!</p>
             </div>
+            </ScrollReveal>
 
             {/* Viral VIP Plan */}
-            <div className="bg-white rounded-3xl p-8 card-shadow hover:card-shadow-hover transition-all duration-500 hover:-translate-y-2 border-2 border-gold relative overflow-hidden">
+            <ScrollReveal variant="scale" delay={3}>
+            <div className="relative bg-gradient-to-br from-amber-50/50 to-yellow-50/30 rounded-3xl p-8 pt-12 shadow-lg border-2 border-gold/30 h-full overflow-visible">
+              
               {/* VIP Badge */}
-              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                <span className="bg-gradient-to-r from-gold to-yellow-400 text-white px-6 py-2 rounded-full text-sm font-semibold shadow-lg">VIP</span>
+              <div className="absolute -top-5 left-1/2 transform -translate-x-1/2 z-20">
+                <span className="bg-gradient-to-r from-gold via-yellow-400 to-amber-500 text-white px-6 py-2.5 rounded-full text-sm font-bold shadow-lg shadow-gold/30 flex items-center gap-2">
+                  <Star className="w-4 h-4 fill-white" />
+                  VIP
+                </span>
               </div>
-              <div className="text-center mb-6">
-                <div className="bg-gradient-to-br from-gold to-yellow-400 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                  <Star className="h-8 w-8 text-white" />
+              <div className="text-center mb-6 relative z-10">
+                <div className="relative mx-auto w-fit mb-6">
+                  <div className="absolute inset-0 bg-gradient-to-br from-gold to-amber-500 rounded-2xl blur-xl opacity-40 animate-pulse-soft"></div>
+                  <div className="relative bg-gradient-to-br from-gold via-yellow-400 to-amber-500 w-16 h-16 rounded-2xl flex items-center justify-center shadow-lg">
+                    <Star className="h-8 w-8 text-white fill-white/50" />
+                  </div>
                 </div>
                 <h3 className="text-2xl font-bold text-slate-dark mb-2">The Viral VIP</h3>
                 <p className="text-sm text-gray-500 mb-4">Rank #1 on Google Maps</p>
-                <div className="text-5xl font-bold text-slate-dark mb-2">$249<span className="text-lg text-gray-500 font-normal">/month</span></div>
-                <p className="text-sm text-green-600 font-semibold">🎉 <span className="line-through text-gray-400">$299</span> Setup Fee WAIVED</p>
+                <div className="flex items-baseline justify-center gap-1">
+                  <span className="text-5xl font-bold bg-gradient-to-r from-gold to-amber-600 bg-clip-text text-transparent">$249</span>
+                  <span className="text-lg text-gray-500 font-normal">/month</span>
+                </div>
+                <div className="mt-2 inline-flex items-center gap-2 bg-green-50 text-green-600 px-3 py-1 rounded-full text-sm font-semibold">
+                  <span>🎉</span>
+                  <span className="line-through text-gray-400 text-xs">$299</span>
+                  <span>Setup Fee WAIVED</span>
+                </div>
               </div>
               
               {/* SEO Secret Callout */}
@@ -1069,11 +1291,12 @@ export default function Home() {
                 </ul>
               </div>
 
-              <button className="w-full bg-gradient-to-r from-gold to-yellow-400 text-white py-4 rounded-2xl font-semibold hover:shadow-xl hover:shadow-gold/25 transition-all text-lg">
+              <button className="w-full bg-gradient-to-r from-gold to-yellow-400 text-white py-4 rounded-2xl font-semibold text-lg">
                 Go VIP
               </button>
               <p className="text-center text-xs text-gray-500 mt-3">The complete Google Maps domination package</p>
             </div>
+            </ScrollReveal>
           </div>
         </div>
       </section>
@@ -1081,7 +1304,7 @@ export default function Home() {
       {/* How It Works Section */}
       <section className="py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <ScrollReveal variant="blur" className="text-center mb-16">
             <div className="inline-block bg-white rounded-full px-6 py-2 mb-6 shadow-sm">
               <span className="text-primary font-semibold">Our Process</span>
             </div>
@@ -1089,10 +1312,11 @@ export default function Home() {
             <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
               From zero to fully-booked in 5 simple steps
             </p>
-          </div>
+          </ScrollReveal>
           
           <div className="max-w-4xl mx-auto space-y-8">
             {/* Step 1 */}
+            <ScrollReveal variant="left" delay={1}>
             <div className="bg-white rounded-2xl p-8 card-shadow flex flex-col md:flex-row gap-6 items-start">
               <div className="bg-gradient-to-br from-primary to-secondary rounded-2xl w-16 h-16 flex-shrink-0 flex items-center justify-center text-white font-bold text-xl shadow-lg">
                 01
@@ -1104,8 +1328,10 @@ export default function Home() {
                 </p>
               </div>
             </div>
+            </ScrollReveal>
 
             {/* Step 2 */}
+            <ScrollReveal variant="right" delay={2}>
             <div className="bg-white rounded-2xl p-8 card-shadow flex flex-col md:flex-row gap-6 items-start">
               <div className="bg-gradient-to-br from-secondary to-purple-500 rounded-2xl w-16 h-16 flex-shrink-0 flex items-center justify-center text-white font-bold text-xl shadow-lg">
                 02
@@ -1117,8 +1343,10 @@ export default function Home() {
                 </p>
               </div>
             </div>
+            </ScrollReveal>
 
             {/* Step 3 */}
+            <ScrollReveal variant="left" delay={3}>
             <div className="bg-white rounded-2xl p-8 card-shadow flex flex-col md:flex-row gap-6 items-start">
               <div className="bg-gradient-to-br from-purple-500 to-primary rounded-2xl w-16 h-16 flex-shrink-0 flex items-center justify-center text-white font-bold text-xl shadow-lg">
                 03
@@ -1130,8 +1358,10 @@ export default function Home() {
                 </p>
               </div>
             </div>
+            </ScrollReveal>
 
             {/* Step 4 */}
+            <ScrollReveal variant="right" delay={4}>
             <div className="bg-white rounded-2xl p-8 card-shadow flex flex-col md:flex-row gap-6 items-start">
               <div className="bg-gradient-to-br from-primary to-secondary rounded-2xl w-16 h-16 flex-shrink-0 flex items-center justify-center text-white font-bold text-xl shadow-lg">
                 04
@@ -1143,8 +1373,10 @@ export default function Home() {
                 </p>
               </div>
             </div>
+            </ScrollReveal>
 
             {/* Step 5 */}
+            <ScrollReveal variant="left" delay={5}>
             <div className="bg-white rounded-2xl p-8 card-shadow flex flex-col md:flex-row gap-6 items-start">
               <div className="bg-gradient-to-br from-secondary to-purple-500 rounded-2xl w-16 h-16 flex-shrink-0 flex items-center justify-center text-white font-bold text-xl shadow-lg">
                 05
@@ -1156,6 +1388,7 @@ export default function Home() {
                 </p>
               </div>
             </div>
+            </ScrollReveal>
           </div>
         </div>
       </section>
@@ -1163,7 +1396,7 @@ export default function Home() {
       {/* Enhanced Portfolio Section */}
       <section id="portfolio" className="py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-20">
+          <ScrollReveal variant="blur" className="text-center mb-20">
             <div className="inline-block bg-white rounded-full px-6 py-2 mb-6 shadow-sm">
               <span className="text-primary font-semibold">Portfolio</span>
             </div>
@@ -1171,9 +1404,10 @@ export default function Home() {
             <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
               See how we've helped European beauty businesses grow and now bringing this expertise to UK & USA markets
             </p>
-          </div>
+          </ScrollReveal>
 
           {/* Portfolio Filter */}
+          <ScrollReveal variant="default" delay={1}>
           <div className="flex flex-wrap justify-center gap-4 mb-16">
             {[
               { id: 'all', label: 'All Projects' },
@@ -1195,11 +1429,13 @@ export default function Home() {
               </button>
             ))}
           </div>
+          </ScrollReveal>
 
           {/* Portfolio Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredPortfolio.map((item, index) => (
-              <div key={index} className="group relative overflow-hidden rounded-3xl card-shadow hover:card-shadow-hover transition-all duration-500 hover:-translate-y-2 bg-white">
+              <ScrollReveal key={index} variant="scale" delay={Math.min(index + 1, 6)}>
+              <div className="group relative overflow-hidden rounded-3xl card-shadow hover:card-shadow-hover transition-all duration-500 hover:-translate-y-2 bg-white h-full">
                 <div className="relative overflow-hidden">
                   <img 
                     src={item.thumbnail} 
@@ -1236,27 +1472,31 @@ export default function Home() {
                   </div>
                 </div>
               </div>
+              </ScrollReveal>
             ))}
           </div>
           
+          <ScrollReveal variant="bounce" delay={2}>
           <div className="text-center mt-16">
             <button className="bg-gradient-to-r from-primary to-secondary text-white px-8 py-4 rounded-2xl font-semibold hover:shadow-xl transition-all duration-300 hover:scale-105">
               View All Projects
             </button>
           </div>
+          </ScrollReveal>
         </div>
       </section>
 
       {/* Enhanced Testimonials Section */}
       <section id="testimonials" className="py-24 bg-white">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-20">
+          <ScrollReveal variant="blur" className="text-center mb-20">
             <div className="inline-block bg-gradient-to-r from-primary/10 to-secondary/10 rounded-full px-6 py-2 mb-6">
               <span className="text-primary font-semibold">Client Success Stories</span>
             </div>
             <h2 className="text-4xl md:text-5xl font-bold text-slate-dark mb-6">What Our Clients Say</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">Success stories from European beauty businesses we've helped grow and expand</p>
-          </div>
+          </ScrollReveal>
+          <ScrollReveal variant="scale" delay={1}>
           <div className="relative max-w-4xl mx-auto">
             <div className="bg-gradient-to-br from-gray-50 to-white rounded-3xl p-12 card-shadow text-center border border-gray-100">
               <div className="flex justify-center mb-8">
@@ -1304,54 +1544,97 @@ export default function Home() {
               />
             ))}
           </div>
+          </ScrollReveal>
         </div>
       </section>
 
       {/* Final CTA Section */}
-      <section className="py-24 bg-gradient-to-br from-primary via-secondary to-purple-600 text-white relative overflow-hidden">
-        <div className="absolute inset-0 bg-black/20"></div>
-        <div className="absolute top-0 left-0 w-full h-full">
-          <div className="absolute top-10 right-10 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-10 left-10 w-80 h-80 bg-white/10 rounded-full blur-3xl"></div>
+      <section className="py-24 lg:py-32 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white relative overflow-hidden">
+        {/* Animated gradient mesh */}
+        <div className="absolute inset-0 opacity-30">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-primary/40 via-transparent to-transparent"></div>
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))] from-secondary/40 via-transparent to-transparent"></div>
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-accent/20 via-transparent to-transparent"></div>
         </div>
         
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative">
-          <div className="bg-white/10 backdrop-blur-sm rounded-full px-6 py-3 inline-block mb-8">
+        {/* Animated orbs */}
+        <div className="absolute top-20 right-20 w-72 h-72 bg-primary/30 rounded-full blur-[100px] animate-pulse-soft"></div>
+        <div className="absolute bottom-20 left-20 w-96 h-96 bg-secondary/20 rounded-full blur-[120px] animate-pulse-soft" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-accent/10 rounded-full blur-[150px] animate-pulse-soft" style={{ animationDelay: '2s' }}></div>
+        
+        {/* Grid pattern overlay */}
+        <div className="absolute inset-0 grid-pattern opacity-10"></div>
+        
+        {/* Floating particles */}
+        <div className="absolute inset-0 overflow-hidden">
+          {[...Array(6)].map((_, i) => (
+            <div key={i} className="absolute w-2 h-2 bg-white/20 rounded-full animate-float" style={{ 
+              left: `${15 + i * 15}%`, 
+              top: `${20 + (i % 3) * 25}%`,
+              animationDelay: `${i * 0.5}s`,
+              animationDuration: `${4 + i}s`
+            }}></div>
+          ))}
+        </div>
+        
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+          <ScrollReveal variant="hero">
+          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md rounded-full px-6 py-3 mb-8 border border-white/20">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-green-400"></span>
+            </span>
             <span className="text-white/90 font-semibold">Ready to get started?</span>
           </div>
           
-          <h2 className="text-4xl md:text-6xl font-bold mb-8 leading-tight">
+          <h2 className="text-4xl md:text-5xl lg:text-7xl font-bold mb-8 leading-[1.1] tracking-tight">
             Ready to Grow Your <br />
-            Beauty Business?
+            <span className="bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-300 bg-clip-text text-transparent">Beauty Business?</span>
           </h2>
           
-          <p className="text-xl md:text-2xl mb-12 opacity-90 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-lg md:text-xl lg:text-2xl mb-12 text-white/80 max-w-3xl mx-auto leading-relaxed">
             Join the growing community of beauty professionals expanding from Europe to UK & USA markets
           </p>
+          </ScrollReveal>
           
-          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-12">
-            <Link href="/create-landing-page" className="bg-white text-primary px-10 py-5 rounded-2xl text-lg font-bold hover:shadow-2xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-1">
-              Upload Your Content Now
+          <ScrollReveal variant="scale" delay={2}>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+            <Link href="/create-landing-page" className="group relative bg-white text-slate-dark px-10 py-5 rounded-2xl text-lg font-bold transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 overflow-hidden shadow-2xl shadow-white/20">
+              <span className="relative z-10 flex items-center gap-2">
+                Upload Your Content Now
+                <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+              </span>
+              <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-secondary/10 to-accent/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </Link>
-            <button className="border-2 border-white/30 text-white px-10 py-5 rounded-2xl text-lg font-semibold hover:bg-white/10 transition-all duration-300 backdrop-blur-sm">
+            <button className="group border-2 border-white/30 text-white px-10 py-5 rounded-2xl text-lg font-semibold hover:bg-white/10 hover:border-white/50 transition-all duration-300 backdrop-blur-sm flex items-center gap-2">
+              <MessageCircle className="w-5 h-5" />
               Schedule a Call
             </button>
           </div>
+          </ScrollReveal>
           
-          <div className="flex flex-col md:flex-row items-center justify-center gap-8 text-white/80 text-sm">
-            <div className="flex items-center gap-2">
-              <Check className="h-4 w-4" />
-              <span>No contracts</span>
+          <ScrollReveal variant="default" delay={3}>
+          <div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-8">
+            <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-2">
+              <div className="w-5 h-5 bg-green-400/20 rounded-full flex items-center justify-center">
+                <Check className="h-3 w-3 text-green-400" />
+              </div>
+              <span className="text-white/90 text-sm font-medium">No contracts</span>
             </div>
-            <div className="flex items-center gap-2">
-              <Check className="h-4 w-4" />
-              <span>Cancel anytime</span>
+            <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-2">
+              <div className="w-5 h-5 bg-green-400/20 rounded-full flex items-center justify-center">
+                <Check className="h-3 w-3 text-green-400" />
+              </div>
+              <span className="text-white/90 text-sm font-medium">Cancel anytime</span>
             </div>
-            <div className="flex items-center gap-2">
-              <Check className="h-4 w-4" />
-              <span>Results guaranteed</span>
+            <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-2">
+              <div className="w-5 h-5 bg-green-400/20 rounded-full flex items-center justify-center">
+                <Check className="h-3 w-3 text-green-400" />
+              </div>
+              <span className="text-white/90 text-sm font-medium">Results guaranteed</span>
             </div>
           </div>
+          </ScrollReveal>
         </div>
       </section>
 
@@ -1359,7 +1642,7 @@ export default function Home() {
       <footer className="bg-slate-dark text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
-            <div className="md:col-span-2">
+            <ScrollReveal variant="default" delay={1} className="md:col-span-2">
               <div className="flex items-center space-x-3 mb-6">
                 <div className="bg-gradient-to-br from-primary to-secondary p-2 rounded-xl">
                   <Sparkles className="h-6 w-6 text-white" />
@@ -1388,8 +1671,8 @@ export default function Home() {
                 <p className="mb-2">📱 +1 (555) 123-4567</p>
                 <p>🌟 Follow us for beauty marketing tips & inspiration</p>
               </div>
-            </div>
-            <div>
+            </ScrollReveal>
+            <ScrollReveal variant="default" delay={2}>
               <h3 className="font-bold text-lg mb-6 text-white">Services</h3>
               <ul className="space-y-3 text-gray-300">
                 <li className="hover:text-primary transition-colors cursor-pointer flex items-center gap-2">
@@ -1413,8 +1696,8 @@ export default function Home() {
                   Analytics & Tracking
                 </li>
               </ul>
-            </div>
-            <div>
+            </ScrollReveal>
+            <ScrollReveal variant="default" delay={3}>
               <h3 className="font-bold text-lg mb-6 text-white">Resources</h3>
               <ul className="space-y-3 text-gray-300">
                 <li className="hover:text-primary transition-colors cursor-pointer">Portfolio</li>
@@ -1424,7 +1707,7 @@ export default function Home() {
                 <li className="hover:text-primary transition-colors cursor-pointer">Help Center</li>
                 <li className="hover:text-primary transition-colors cursor-pointer">Live Chat Support</li>
               </ul>
-            </div>
+            </ScrollReveal>
           </div>
           
           {/* Social Proof Bar */}
