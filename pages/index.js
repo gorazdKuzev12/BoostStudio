@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { ChevronLeft, ChevronRight, Star, Play, Check, Sparkles, Video, Globe, BarChart3, Monitor, Instagram, Facebook, Linkedin, MessageCircle, Users, TrendingUp, Camera, Palette, Target, Eye } from 'lucide-react'
+import { ChevronLeft, ChevronRight, ChevronDown, Star, Play, Check, Sparkles, Video, Globe, BarChart3, Monitor, Instagram, Facebook, Linkedin, MessageCircle, Users, TrendingUp, Camera, Palette, Target, Eye, HelpCircle } from 'lucide-react'
 import Link from 'next/link'
 
 // Custom hook for scroll reveal animations
@@ -392,6 +392,256 @@ const WinBackPreview = ({ children }) => (
     </div>
   </div>
 )
+
+// FAQ Item Component
+const FAQItem = ({ question, answer, isOpen, onClick, index }) => {
+  return (
+    <div 
+      className={`bg-white rounded-2xl overflow-hidden transition-all duration-500 ${
+        isOpen ? 'shadow-lg shadow-primary/10 ring-1 ring-primary/20' : 'shadow-md hover:shadow-lg'
+      }`}
+    >
+      <button
+        onClick={onClick}
+        className="w-full px-8 py-6 flex items-center justify-between text-left group"
+      >
+        <div className="flex items-center gap-4">
+          <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300 ${
+            isOpen 
+              ? 'bg-gradient-to-br from-primary to-secondary text-white' 
+              : 'bg-gray-100 text-gray-500 group-hover:bg-primary/10 group-hover:text-primary'
+          }`}>
+            <span className="font-bold text-sm">{String(index + 1).padStart(2, '0')}</span>
+          </div>
+          <h3 className={`text-lg font-semibold transition-colors duration-300 ${
+            isOpen ? 'text-primary' : 'text-slate-dark group-hover:text-primary'
+          }`}>
+            {question}
+          </h3>
+        </div>
+        <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
+          isOpen 
+            ? 'bg-primary/10 rotate-180' 
+            : 'bg-gray-100 group-hover:bg-primary/10'
+        }`}>
+          <ChevronDown className={`w-5 h-5 transition-colors duration-300 ${
+            isOpen ? 'text-primary' : 'text-gray-500 group-hover:text-primary'
+          }`} />
+        </div>
+      </button>
+      <div className={`overflow-hidden transition-all duration-500 ${
+        isOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'
+      }`}>
+        <div className="px-8 pb-8 pt-0">
+          <div className="pl-14 text-gray-600 leading-relaxed space-y-4">
+            {answer}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// FAQ Section Component
+const FAQSection = () => {
+  const [openIndex, setOpenIndex] = useState(0)
+  const [ref, isRevealed] = useScrollReveal({ threshold: 0.1 })
+
+  const faqs = [
+    {
+      question: "Do I own the website?",
+      answer: (
+        <>
+          <p>
+            To give you a premium website for $0 upfront, we operate on a <span className="font-semibold text-slate-dark">'Software-as-a-Service'</span> model—similar to how you rent a suite. We cover the development, hosting, and updates while you are a partner.
+          </p>
+          <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-4 border border-green-100">
+            <p className="font-semibold text-green-700 mb-2">You own 100% of:</p>
+            <ul className="space-y-1">
+              <li className="flex items-center gap-2 text-green-600">
+                <Check className="w-4 h-4" />
+                <span>Your Domain</span>
+              </li>
+              <li className="flex items-center gap-2 text-green-600">
+                <Check className="w-4 h-4" />
+                <span>Customer Data</span>
+              </li>
+              <li className="flex items-center gap-2 text-green-600">
+                <Check className="w-4 h-4" />
+                <span>Brand Content</span>
+              </li>
+            </ul>
+          </div>
+          <p>If you ever decide to leave, we make it clean:</p>
+          <ul className="space-y-2">
+            <li className="flex items-start gap-2">
+              <span className="text-primary mt-1">•</span>
+              <span>We export your entire Client List & History (Excel)</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-primary mt-1">•</span>
+              <span>We transfer your Domain (.com) to you</span>
+            </li>
+          </ul>
+          <div className="bg-amber-50 rounded-xl p-4 border border-amber-100">
+            <p className="text-amber-700 text-sm">
+              <span className="font-semibold">Note:</span> If you cancel within the first 6 months, there is a small Transfer Fee ($200) to release the domain, which covers the initial setup costs we waived for you.
+            </p>
+          </div>
+        </>
+      )
+    },
+    {
+      question: "Can I use my own logo?",
+      answer: (
+        <p>
+          <span className="font-semibold text-slate-dark">Yes!</span> During onboarding, you simply upload your existing logo. If you don't have one, we design a <span className="font-semibold text-primary">professional text-based logo</span> for you as part of the package.
+        </p>
+      )
+    },
+    {
+      question: "How fast can I get started?",
+      answer: (
+        <div className="space-y-4">
+          <p>
+            Our <span className="font-semibold text-primary">'Launch Week'</span> protocol gets you live in <span className="font-bold text-slate-dark">72 hours</span>.
+          </p>
+          <div className="flex items-center gap-3 bg-gradient-to-r from-primary/5 to-secondary/5 rounded-xl p-4 border border-primary/10">
+            <div className="w-12 h-12 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center">
+              <Sparkles className="w-6 h-6 text-white" />
+            </div>
+            <p className="text-slate-dark">
+              Once you fill out the simple intake form, our team handles the rest.
+            </p>
+          </div>
+        </div>
+      )
+    },
+    {
+      question: "Is there a contract?",
+      answer: (
+        <div className="space-y-4">
+          <p>
+            <span className="font-semibold text-green-600">No long-term lock-in.</span> The service is month-to-month. You can cancel anytime.
+          </p>
+          <div className="flex items-start gap-3 bg-gray-50 rounded-xl p-4 border border-gray-100">
+            <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
+              <MessageCircle className="w-4 h-4 text-primary" />
+            </div>
+            <p className="text-gray-600">
+              We just ask for <span className="font-semibold text-slate-dark">30 days' notice</span> so we can help you export your data smoothly.
+            </p>
+          </div>
+        </div>
+      )
+    },
+    {
+      question: "Do you take a commission on my bookings?",
+      answer: (
+        <div className="space-y-4">
+          <p>
+            <span className="font-bold text-2xl text-green-600">Zero.</span> You keep <span className="font-semibold text-slate-dark">100% of your earnings</span>.
+          </p>
+          <p className="text-gray-600">
+            Unlike other platforms that take a cut of every haircut, we charge a <span className="font-semibold text-slate-dark">flat monthly subscription ($99)</span>. Your revenue goes directly to your Stripe account, and then straight to your bank. We never touch your money.
+          </p>
+          <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4 border border-blue-100">
+            <div className="flex items-start gap-3">
+              <div className="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center flex-shrink-0">
+                <span className="text-white font-bold text-xs">S</span>
+              </div>
+              <div>
+                <p className="text-blue-700 text-sm">
+                  <span className="font-semibold">Note:</span> Stripe charges standard processing fees (2.9% + 30¢ per transaction) — this is Stripe's fee, not ours. It's the same rate whether you use us or any other platform.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )
+    },
+    {
+      question: "I already use Vagaro/GlossGenius. Can I switch?",
+      answer: (
+        <div className="space-y-4">
+          <p>
+            <span className="font-semibold text-green-600">Yes, and we help you do it.</span>
+          </p>
+          <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-5 border border-purple-100">
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center flex-shrink-0">
+                <Users className="w-6 h-6 text-white" />
+              </div>
+              <div>
+                <p className="font-semibold text-slate-dark mb-2">Free Client Migration</p>
+                <p className="text-gray-600 text-sm">
+                  If you can export your client list to a file (Excel or CSV) from your current software, we will <span className="font-semibold text-purple-600">import your client database for free</span> during the setup process.
+                </p>
+              </div>
+            </div>
+          </div>
+          <p className="text-slate-dark font-medium flex items-center gap-2">
+            <Check className="w-5 h-5 text-green-500" />
+            You won't lose your regulars.
+          </p>
+        </div>
+      )
+    }
+  ]
+
+  return (
+    <section id="faq" className="py-24 bg-gradient-to-br from-gray-50 via-purple-50/20 to-pink-50/10 relative overflow-hidden">
+      {/* Background decoration */}
+      <div className="absolute inset-0 grid-pattern opacity-20"></div>
+      <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-gradient-to-br from-primary/5 via-secondary/5 to-transparent rounded-full blur-3xl"></div>
+      <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-gradient-to-tr from-secondary/5 via-accent/5 to-transparent rounded-full blur-3xl"></div>
+      
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div 
+          ref={ref}
+          className={`text-center mb-16 scroll-reveal-blur ${isRevealed ? 'revealed' : ''}`}
+        >
+          <div className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm rounded-full px-6 py-2.5 mb-6 border border-primary/10 shadow-lg shadow-primary/5">
+            <HelpCircle className="w-4 h-4 text-primary" />
+            <span className="text-primary font-semibold text-sm tracking-wide">Got Questions?</span>
+          </div>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-dark mb-6 tracking-tight">
+            Frequently Asked <span className="gradient-text">Questions</span>
+          </h2>
+          <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
+            Everything you need to know before getting started
+          </p>
+        </div>
+
+        <div className="space-y-4">
+          {faqs.map((faq, index) => (
+            <ScrollReveal key={index} variant="left" delay={index + 1}>
+              <FAQItem
+                question={faq.question}
+                answer={faq.answer}
+                isOpen={openIndex === index}
+                onClick={() => setOpenIndex(openIndex === index ? -1 : index)}
+                index={index}
+              />
+            </ScrollReveal>
+          ))}
+        </div>
+
+        <ScrollReveal variant="bounce" delay={5}>
+          <div className="mt-12 text-center">
+            <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100 inline-block">
+              <p className="text-gray-600 mb-4">Still have questions?</p>
+              <button className="bg-gradient-to-r from-primary to-secondary text-white px-8 py-3 rounded-xl font-semibold hover:shadow-lg hover:shadow-primary/30 transition-all duration-300 flex items-center gap-2 mx-auto">
+                <MessageCircle className="w-5 h-5" />
+                Chat With Us
+              </button>
+            </div>
+          </div>
+        </ScrollReveal>
+      </div>
+    </section>
+  )
+}
 
 export default function Home() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0)
@@ -966,8 +1216,8 @@ export default function Home() {
           </ScrollReveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto items-stretch">
             {/* Essential Plan */}
-            <ScrollReveal variant="scale" delay={1}>
-            <div className="relative bg-white rounded-3xl p-8 shadow-lg border border-gray-100/80 h-full overflow-hidden">
+            <ScrollReveal variant="scale" delay={1} className="h-full">
+            <div className="relative bg-white rounded-3xl p-8 shadow-lg border border-gray-100/80 h-full overflow-hidden flex flex-col">
               
               <div className="text-center mb-8 relative z-10">
                 <div className="relative mx-auto w-fit mb-6">
@@ -1043,15 +1293,18 @@ export default function Home() {
                   </BusinessCardPreview>
                 </li>
               </ul>
-              <button className="w-full bg-gray-800 text-white py-4 rounded-2xl font-semibold text-lg">
-                Get Started
-              </button>
+              <div className="mt-auto">
+                <button className="w-full bg-gray-800 text-white py-4 rounded-2xl font-semibold text-lg">
+                  Book Demo Call
+                </button>
+                <p className="text-center text-xs text-gray-500 mt-3">🤝 No Card Required to Start</p>
+              </div>
             </div>
             </ScrollReveal>
 
             {/* Auto-Booker Plan */}
-            <ScrollReveal variant="scale" delay={2}>
-            <div className="relative bg-white rounded-3xl p-8 pt-12 h-full overflow-visible shadow-xl shadow-primary/10">
+            <ScrollReveal variant="scale" delay={2} className="h-full">
+            <div className="relative bg-white rounded-3xl p-8 pt-12 h-full overflow-visible shadow-xl shadow-primary/10 flex flex-col">
               {/* Gradient border */}
               <div className="absolute inset-0 bg-gradient-to-r from-primary via-secondary to-accent rounded-3xl p-[2px]">
                 <div className="absolute inset-[2px] bg-white rounded-[22px]"></div>
@@ -1133,16 +1386,18 @@ export default function Home() {
                 </li>
               </ul>
               <p className="text-[10px] text-gray-400 text-center -mt-6 mb-4 relative z-10">💡 Payments go directly to your Stripe — we never hold your money.</p>
-              <button className="relative z-10 w-full bg-gradient-to-r from-primary to-secondary text-white py-4 rounded-2xl font-semibold text-lg">
-                Start This Week
-              </button>
-              <p className="text-center text-xs text-gray-500 mt-3 relative z-10">Limited time: No setup fee!</p>
+              <div className="mt-auto relative z-10">
+                <button className="w-full bg-gradient-to-r from-primary to-secondary text-white py-4 rounded-2xl font-semibold text-lg">
+                  Book Demo Call
+                </button>
+                <p className="text-center text-xs text-gray-500 mt-3">🤝 No Card Required to Start</p>
+              </div>
             </div>
             </ScrollReveal>
 
             {/* Viral VIP Plan */}
-            <ScrollReveal variant="scale" delay={3}>
-            <div className="relative bg-gradient-to-br from-amber-50/50 to-yellow-50/30 rounded-3xl p-8 pt-12 shadow-lg border-2 border-gold/30 h-full overflow-visible">
+            <ScrollReveal variant="scale" delay={3} className="h-full">
+            <div className="relative bg-gradient-to-br from-amber-50/50 to-yellow-50/30 rounded-3xl p-8 pt-12 shadow-lg border-2 border-gold/30 h-full overflow-visible flex flex-col">
               
               {/* VIP Badge */}
               <div className="absolute -top-5 left-1/2 transform -translate-x-1/2 z-20">
@@ -1291,10 +1546,12 @@ export default function Home() {
                 </ul>
               </div>
 
-              <button className="w-full bg-gradient-to-r from-gold to-yellow-400 text-white py-4 rounded-2xl font-semibold text-lg">
-                Go VIP
-              </button>
-              <p className="text-center text-xs text-gray-500 mt-3">The complete Google Maps domination package</p>
+              <div className="mt-auto">
+                <button className="w-full bg-gradient-to-r from-gold to-yellow-400 text-white py-4 rounded-2xl font-semibold text-lg">
+                  Book Demo Call
+                </button>
+                <p className="text-center text-xs text-gray-500 mt-3">🤝 No Card Required to Start</p>
+              </div>
             </div>
             </ScrollReveal>
           </div>
@@ -1547,6 +1804,9 @@ export default function Home() {
           </ScrollReveal>
         </div>
       </section>
+
+      {/* FAQ Section */}
+      <FAQSection />
 
       {/* Final CTA Section */}
       <section className="py-24 lg:py-32 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white relative overflow-hidden">

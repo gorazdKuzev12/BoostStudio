@@ -113,7 +113,7 @@ export default function DashboardPage() {
   const { user, loading } = useUser()
   const router = useRouter()
 
-  const CAL_LINK = 'gorazd-kuzev-oga4y8/15min'
+  const CAL_LINK = 'gorazd-kuzev-oga4y8'
   const [currentPlan] = useState<'essential' | 'auto-booker' | 'viral-vip'>('auto-booker')
   const [showAddBooking, setShowAddBooking] = useState(false)
   const [selectedDate, setSelectedDate] = useState(new Date())
@@ -154,8 +154,14 @@ export default function DashboardPage() {
   }, [user])
 
   const handleLogout = async () => {
-    const { error } = await authService.logout()
-    if (!error) router.push('/login')
+    try {
+      await authService.logout()
+    } catch (error) {
+      console.error('Logout error:', error)
+    } finally {
+      // Always redirect to login, even if there's an error
+      router.push('/login')
+    }
   }
 
   // Get 7 days centered around selected date
@@ -573,8 +579,8 @@ export default function DashboardPage() {
       {/* Add Booking Modal */}
       {showAddBooking && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-end sm:items-center justify-center">
-          <div className="bg-white w-full sm:max-w-lg sm:mx-4 sm:rounded-2xl rounded-t-2xl max-h-[90vh] overflow-hidden">
-            <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
+          <div className="bg-white w-full sm:max-w-2xl lg:max-w-3xl sm:mx-4 sm:rounded-2xl rounded-t-2xl max-h-[95vh] sm:max-h-[85vh] overflow-hidden flex flex-col">
+            <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100 flex-shrink-0">
               <div>
                 <h2 className="font-semibold text-gray-900">New Appointment</h2>
                 <p className="text-xs text-gray-500">Select date & time</p>
@@ -583,21 +589,21 @@ export default function DashboardPage() {
                 <X className="h-5 w-5 text-gray-500" />
               </button>
             </div>
-            <div className="px-4 py-2 bg-green-50 border-b border-green-100 flex items-center gap-2 text-sm text-green-700">
+            <div className="px-4 py-2 bg-green-50 border-b border-green-100 flex items-center gap-2 text-sm text-green-700 flex-shrink-0">
               <MapPin className="h-4 w-4" />
               <span>In-Person • Your Salon</span>
             </div>
-            <div className="relative overflow-hidden" style={{ height: 'min(500px, 60vh)' }}>
+            <div className="flex-1 overflow-auto min-h-0">
               <iframe
                 src={`https://cal.com/${CAL_LINK}?embed=true&theme=light&hideEventTypeDetails=true`}
                 width="100%"
                 frameBorder="0"
                 className="w-full"
-                style={{ height: 'calc(100% + 150px)', marginBottom: '-150px' }}
+                style={{ height: '700px', minHeight: '600px' }}
               />
             </div>
           </div>
-                  </div>
+        </div>
       )}
 
       {/* Customer Profile Modal - Bottom Sheet Style */}
